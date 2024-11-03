@@ -4,12 +4,12 @@
 
 ## Features
 
-- **Board and List Management**: Create and organize multiple boards and lists to represent different projects and workflows.
-- **Card Creation**: Add cards within lists to represent tasks, including details like descriptions, due dates, and labels.
-- **Drag and Drop Interface**: Intuitive drag-and-drop functionality for moving cards between lists and organizing tasks visually.
-- **Collaboration Tools**: Invite team members to collaborate, assign tasks, and track project progress in real-time.
-- **Responsive Design**: Accessible on both desktop and mobile devices.
+-   **Board and List Management**: Create and organize multiple boards and lists to represent different projects and workflows.
+-   **Card Creation**: Add cards within lists to represent tasks, including details like descriptions, due dates, and labels.
+-   **Drag and Drop Interface**: Intuitive drag-and-drop functionality for moving cards between lists and organizing tasks visually.
+-   **Collaboration Tools**: Invite team members to collaborate, assign tasks, and track project progress in real-time.
+-   **Responsive Design**: Accessible on both desktop and mobile devices.
 
 ### Technology
 
-- [Node.js](https://nodejs.org/) (version >= 18.x)
+-   [Node.js](https://nodejs.org/) (version >= 18.x)
