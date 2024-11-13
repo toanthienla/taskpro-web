@@ -1,6 +1,6 @@
 # TaskPro
 
-**TaskPro** is a web-based task management application inspired by Trello. Designed to help individuals and teams organize projects with ease, TaskPro provides tools for creating boards, lists, and cards, enabling efficient workflow management and collaboration.
+**TaskPro** is a web-based task management application inspired by [Trello](https://trello.com/). Designed to help individuals and teams organize projects with ease, TaskPro provides tools for creating boards, lists, and cards, enabling efficient workflow management and collaboration.
 
 ## Features
 
