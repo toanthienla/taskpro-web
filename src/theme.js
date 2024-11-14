@@ -1,6 +1,6 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { blue } from '@mui/material/colors';
 
-// Create a theme instance.
 const theme = extendTheme({
   taskPro: {
     appBarHeight: '58px',
@@ -14,28 +14,49 @@ const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
-        primary: {
-          main: '#000'
-        },
-        secondary: {
-          main: '#00b4d8'
-        },
-        text: {
-          primary: '#000'
-        }
+        primary: blue
       }
     },
     dark: {
       palette: {
         primary: {
-          main: '#ffffff'
-        },
-        secondary: {
-          main: '#03045e'
-        },
-        text: {
-          primary: '#ffffff'
+          main: '#00b4d8'
         }
+      }
+    }
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none'
+        }
+      }
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: ({ theme }) => (
+          {
+            color: theme.palette.primary.main,
+            fontSize: '0.875rem'
+          }
+        )
+      }
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: ({ theme }) => (
+          {
+            color: theme.palette.primary.main,
+            fontSize: '0.875rem',
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: theme.palette.primary.main
+            },
+            '.MuiOutlinedInput-notchedOutline': {
+              borderColor: theme.palette.primary.light
+            }
+          }
+        )
       }
     }
   }

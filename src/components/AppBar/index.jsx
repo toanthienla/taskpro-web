@@ -27,10 +27,10 @@ function AppBar() {
       p: 3
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <AppsIcon />
+        <AppsIcon sx={{ color: 'primary.main' }} />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <SvgIcon component={TaskProIcon} inheritViewBox />
-          <Typography variant='span' sx={{ fontWeight: 'bold', fontSize: '1.2rem' }}>TaskPro</Typography>
+          <Typography variant='span' sx={{ color: 'primary.main', fontWeight: 'bold', fontSize: '1.2rem' }}>TaskPro</Typography>
         </Box>
 
         <Workspaces />
@@ -54,11 +54,11 @@ function AppBar() {
             },
             cursor: 'pointer'
           }}>
-            <NotificationsNoneIcon />
+            <NotificationsNoneIcon sx={{ color: 'primary.main' }} />
           </Badge>
         </Tooltip>
         <Tooltip title="Help" sx={{ cursor: 'pointer' }}>
-          <HelpOutlineIcon />
+          <HelpOutlineIcon sx={{ color: 'primary.main' }} />
         </Tooltip>
 
         <Account />

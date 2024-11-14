@@ -12,4 +12,4 @@
 
 ### Technology
 
--   [Node.js](https://nodejs.org/) (version >= 18.x)
+-   [Node.js](https://nodejs.org/) (version @^18.x)

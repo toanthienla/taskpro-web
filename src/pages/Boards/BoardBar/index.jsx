@@ -5,7 +5,7 @@ function BoardBar() {
     <Box sx={{
       height: (theme) => theme.taskPro.boardBarHeight,
       width: '100%',
-      backgroundColor: 'secondary.main'
+      backgroundColor: 'primary.main'
     }}></Box>
   );
 }
