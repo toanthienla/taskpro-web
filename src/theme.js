@@ -1,5 +1,4 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import { blue } from '@mui/material/colors';
 
 const theme = extendTheme({
   taskPro: {
@@ -14,7 +13,9 @@ const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
-        primary: blue
+        primary: {
+          main: '#0d47a1'
+        }
       }
     },
     dark: {
@@ -26,6 +27,24 @@ const theme = extendTheme({
     }
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body:
+        {
+          '*::-webkit-scrollbar': {
+            width: '8px',
+            height: '8px'
+          },
+          '*::-webkit-scrollbar-thumb': {
+            backgroundColor: '#bdc3c7',
+            borderRadius: '10px'
+          },
+          '*::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: '#005CB2'
+          }
+        }
+      }
+    },
     MuiButton: {
       styleOverrides: {
         root: {

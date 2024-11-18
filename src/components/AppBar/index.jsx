@@ -15,6 +15,7 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Tooltip from '@mui/material/Tooltip';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Account from './Menu/Account';
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 
 function AppBar() {
   return (
@@ -24,7 +25,9 @@ function AppBar() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      p: 3
+      px: 2,
+      gap: 2,
+      overflowX: 'auto'
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <AppsIcon sx={{ color: 'primary.main' }} />
@@ -33,18 +36,19 @@ function AppBar() {
           <Typography variant='span' sx={{ color: 'primary.main', fontWeight: 'bold', fontSize: '1.2rem' }}>TaskPro</Typography>
         </Box>
 
-        <Workspaces />
-        <Recent />
-        <Starred />
-        <Templates />
-
-        <Button variant="outlined">
-          Create
-        </Button>
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
+          <Workspaces />
+          <Recent />
+          <Starred />
+          <Templates />
+          <Button variant="outlined" startIcon={<AddToPhotosIcon />}>
+            Create
+          </Button>
+        </Box>
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <TextField id="outlined-search" label="Search field" type="search" size='small' />
+        <TextField id="outlined-search" label="Search field" type="search" size='small' sx={{ minWidth: '120px' }} />
         <ModeSelect />
 
         <Tooltip title="Notification">
