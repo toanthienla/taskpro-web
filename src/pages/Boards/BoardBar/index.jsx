@@ -9,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Button from '@mui/material/Button';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import { alpha } from '@mui/material/styles';
 
 const MENU_STYLES = {
   color: 'primary.main',
@@ -20,7 +21,7 @@ const MENU_STYLES = {
     color: 'primary.main'
   },
   '&:hover': {
-    backgroundColor: 'primary.50'
+    backgroundColor: (theme) => ({ backgroundColor: alpha(theme.palette.primary.main, 0.1) })
   }
 };
 
@@ -37,12 +38,12 @@ function BoardBar() {
       px: 2
     }}>
 
-      <Box>
-        <Chip icon={<DashboardIcon />} label="Project's Name" sx={MENU_STYLES} onClick='{}' />
-        <Chip icon={<VpnLockIcon />} label="Public/Private Workspace" sx={MENU_STYLES} onClick='{}' />
-        <Chip icon={<AddToDriveIcon />} label="Add To Google Drive" sx={MENU_STYLES} onClick='{}' />
-        <Chip icon={<AutoFixHighIcon />} label="Automation" sx={MENU_STYLES} onClick='{}' />
-        <Chip icon={<FilterListIcon />} label="Filter" sx={MENU_STYLES} onClick='{}' />
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <Chip icon={<DashboardIcon />} label="Project's Name" sx={MENU_STYLES} clickable />
+        <Chip icon={<VpnLockIcon />} label="Public/Private Workspace" sx={MENU_STYLES} clickable />
+        <Chip icon={<AddToDriveIcon />} label="Add To Google Drive" sx={MENU_STYLES} clickable />
+        <Chip icon={<AutoFixHighIcon />} label="Automation" sx={MENU_STYLES} clickable />
+        <Chip icon={<FilterListIcon />} label="Filter" sx={MENU_STYLES} clickable />
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -57,8 +58,8 @@ function BoardBar() {
           }
         }}>
           <Avatar alt="ToanLa" src="hamster.jpg" />
-          <Avatar alt="ToanLa" src="hamster.jpg" />
-          <Avatar alt="ToanLa" src="hamster.jpg" />
+          <Avatar alt="ToanLa" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_5LwQ3_Ik8lai147xZGje_6CcRjixf90QWQ&s" />
+          <Avatar alt="ToanLa" src="https://file.aiquickdraw.com/imgcompressed/img/compressed_c9741e1459a08fc6af8a48e2a8a2c844.webp" />
           <Avatar alt="ToanLa" src="hamster.jpg" />
           <Avatar alt="ToanLa" src="hamster.jpg" />
         </AvatarGroup>

@@ -5,7 +5,7 @@ function BoardContent() {
     <Box sx={{
       height: (theme) => `calc(100vh - ${theme.taskPro.appBarHeight} - ${theme.taskPro.boardBarHeight})`,
       width: '100%',
-      backgroundColor: 'primary.light'
+      backgroundColor: 'primary.main'
     }}></Box>
   );
 }

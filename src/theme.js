@@ -1,4 +1,5 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 
 const theme = extendTheme({
   taskPro: {
@@ -14,14 +15,26 @@ const theme = extendTheme({
     light: {
       palette: {
         primary: {
-          main: '#0d47a1'
+          main: '#2e86de'
+        },
+        background: {
+          default: '#ffffff'
+        },
+        text: {
+          primary: '#000000'
         }
       }
     },
     dark: {
       palette: {
         primary: {
-          main: '#00b4d8'
+          main: '#77CDFF'
+        },
+        background: {
+          default: '#121212'
+        },
+        text: {
+          primary: '#ffffff'
         }
       }
     }
@@ -32,50 +45,42 @@ const theme = extendTheme({
         body:
         {
           '*::-webkit-scrollbar': {
-            width: '8px',
-            height: '8px'
+            height: '4px'
           },
           '*::-webkit-scrollbar-thumb': {
             backgroundColor: '#bdc3c7',
-            borderRadius: '10px'
+            borderRadius: '10px',
+            cursor: 'pointer'
           },
           '*::-webkit-scrollbar-thumb:hover': {
-            backgroundColor: '#005CB2'
+            backgroundColor: 'white'
           }
         }
       }
     },
     MuiButton: {
       styleOverrides: {
-        root: {
-          textTransform: 'none'
-        }
+        root: ({ theme }) => ({
+          textTransform: 'none',
+          '&:hover': {
+            backgroundColor: alpha(theme.palette.primary.main, 0.08)
+          }
+        })
       }
     },
     MuiFormLabel: {
       styleOverrides: {
-        root: ({ theme }) => (
-          {
-            color: theme.palette.primary.main,
-            fontSize: '0.875rem'
-          }
-        )
+        root: {
+          fontSize: '0.875rem'
+        }
       }
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: ({ theme }) => (
-          {
-            color: theme.palette.primary.main,
-            fontSize: '0.875rem',
-            '&:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: theme.palette.primary.main
-            },
-            '.MuiOutlinedInput-notchedOutline': {
-              borderColor: theme.palette.primary.light
-            }
-          }
-        )
+        root:
+        {
+          fontSize: '0.875rem'
+        }
       }
     }
   }

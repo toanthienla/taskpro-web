@@ -16,6 +16,8 @@ import Tooltip from '@mui/material/Tooltip';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Account from './Menu/Account';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from '@mui/material/InputAdornment';
 
 function AppBar() {
   return (
@@ -48,14 +50,39 @@ function AppBar() {
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <TextField id="outlined-search" label="Search field" type="search" size='small' sx={{ minWidth: '120px' }} />
+        <TextField id="outlined-search" label="Search field" type="search" size='small'
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: 'primary.main', fontSize: '20px' }} />
+              </InputAdornment>
+            )
+          }}
+          sx={{
+            minWidth: '120px',
+            '& label': { color: 'primary.main' },
+            '& input': { color: 'primary.dark' },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'primary.light'
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: (theme) => `${theme.palette.primary.main} !important`
+            },
+            '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'primary.main'
+            },
+            '& label.Mui-focused': {
+              color: 'primary.dark'
+            },
+            '& .Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root': {
+              color: 'primary.dark'
+            }
+          }}
+        />
         <ModeSelect />
 
         <Tooltip title="Notification">
-          <Badge variant="dot" sx={{
-            '& .MuiBadge-badge': {
-              backgroundColor: 'red'
-            },
+          <Badge variant="dot" color='error' sx={{
             cursor: 'pointer'
           }}>
             <NotificationsNoneIcon sx={{ color: 'primary.main' }} />
