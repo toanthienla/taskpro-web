@@ -1,24 +1,26 @@
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-import { alpha } from '@mui/material/styles';
+
+const APP_BAR_HEIGHT = '58px';
+const BOARD_BAR_HEIGHT = '60px';
+const BOARD_CONTENT_HEIGHT = `calc(100vh - ${APP_BAR_HEIGHT} - ${BOARD_BAR_HEIGHT})`;
 
 const theme = extendTheme({
   taskPro: {
-    appBarHeight: '58px',
-    boardBarHeight: '60px'
+    appBarHeight: APP_BAR_HEIGHT,
+    boardBarHeight: BOARD_BAR_HEIGHT,
+    boardContentHeight: BOARD_CONTENT_HEIGHT
   },
   typography: {
-    allVariants: {
-      fontFamily: 'Poppins'
-    }
+    fontFamily: '"Catamaran", sans-serif'
   },
   colorSchemes: {
     light: {
       palette: {
         primary: {
-          main: '#2e86de'
+          main: '#1e2341'
         },
         background: {
-          default: '#ffffff'
+          default: '#f0f5ff'
         },
         text: {
           primary: '#000000'
@@ -28,10 +30,10 @@ const theme = extendTheme({
     dark: {
       palette: {
         primary: {
-          main: '#77CDFF'
+          main: '#f0f5ff'
         },
         background: {
-          default: '#121212'
+          default: '#1E2341'
         },
         text: {
           primary: '#ffffff'
@@ -45,27 +47,23 @@ const theme = extendTheme({
         body:
         {
           '*::-webkit-scrollbar': {
-            height: '4px'
+            width: '4px',
+            height: '5px'
           },
           '*::-webkit-scrollbar-thumb': {
             backgroundColor: '#bdc3c7',
-            borderRadius: '10px',
+            borderRadius: '1px',
             cursor: 'pointer'
           },
           '*::-webkit-scrollbar-thumb:hover': {
-            backgroundColor: 'white'
+            backgroundColor: '#94989c'
           }
         }
       }
     },
     MuiButton: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          textTransform: 'none',
-          '&:hover': {
-            backgroundColor: alpha(theme.palette.primary.main, 0.08)
-          }
-        })
+        root: { textTransform: 'none' }
       }
     },
     MuiFormLabel: {
@@ -77,9 +75,17 @@ const theme = extendTheme({
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root:
-        {
+        root: {
           fontSize: '0.875rem'
+        }
+      }
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          '&.MuiTypography-body1': {
+            fontSize: '0.875rem'
+          }
         }
       }
     }

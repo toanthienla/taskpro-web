@@ -72,11 +72,11 @@ function AppBar() {
               borderColor: 'primary.main'
             },
             '& label.Mui-focused': {
-              color: 'primary.dark'
-            },
-            '& .Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root': {
-              color: 'primary.dark'
+              color: 'primar'
             }
+            // '& .Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root': {
+            //   color: ''
+            // } search icon
           }}
         />
         <ModeSelect />

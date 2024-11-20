@@ -21,7 +21,7 @@ const MENU_STYLES = {
     color: 'primary.main'
   },
   '&:hover': {
-    backgroundColor: (theme) => ({ backgroundColor: alpha(theme.palette.primary.main, 0.1) })
+    backgroundColor: (theme) => (alpha(theme.palette.primary.main, 0.06))
   }
 };
 
@@ -30,12 +30,12 @@ function BoardBar() {
     <Box sx={{
       height: (theme) => theme.taskPro.boardBarHeight,
       width: '100%',
-      borderTop: '1px solid',
-      borderColor: 'primary.main',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      px: 2
+      px: 2,
+      overflowX: 'auto',
+      backgroundColor: (theme) => (alpha(theme.palette.primary.main, 0.1))
     }}>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>

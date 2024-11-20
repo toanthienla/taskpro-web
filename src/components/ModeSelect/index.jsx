@@ -20,9 +20,9 @@ function ModeSelect() {
     <FormControl size="small" sx={{ minWidth: '120px' }}>
       <InputLabel id="label-theme-mode"
         sx={{
-          color: 'primary.main',
+          color: 'primary.light',
           '&.Mui-focused': {
-            color: 'primary.dark'
+            color: 'primary.main'
           }
         }}>
         Theme
