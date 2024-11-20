@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import Card from './Card/Card';
 
-function Cards() {
+function Cards({ cards }) {
   return (
     < Box sx={{
       m: '0 5px', p: '0 5px', // Trick align scroll bar
@@ -13,13 +13,7 @@ function Cards() {
               ${theme.taskPro.columnFooterHeight}
             )`
     }}>
-      <Card />
-      <Card noData />
-      <Card noData />
-      <Card noData />
-      <Card noData />
-      <Card noData />
-      <Card noData />
+      {cards?.map((card) => <Card key={card._id} card={card} />)}
     </Box >
   );
 }

@@ -3,12 +3,12 @@ import { Box } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 
-function Columns() {
+function Columns({ columns }) {
   return (
     <>
 
-      <Column />
-      <Column />
+      {/* List columns */}
+      {columns?.map((column) => <Column key={column._id} column={column} />)}
 
       {/* Add another column button */}
       <Box sx={{
@@ -24,6 +24,7 @@ function Columns() {
           Add another column
         </Button>
       </Box>
+
     </>
   );
 }
