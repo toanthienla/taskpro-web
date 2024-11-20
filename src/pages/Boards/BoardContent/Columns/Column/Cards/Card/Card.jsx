@@ -8,36 +8,41 @@ import AttachmentIcon from '@mui/icons-material/Attachment';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-function Card({ noData }) {
-  if (!noData) {
-    return (
-      <MuiCard sx={{ cursor: 'pointer', overflow: 'unset' }}>
+function Card({ card }) {
+
+  const showCardActions = !!card?.memberIds.length || !!card?.comments.length || !!card?.attachments.length;
+
+  return (
+    <MuiCard sx={{ cursor: 'pointer', overflow: 'unset' }}>
+
+      {card?.cover &&
         <CardMedia
           component="img"
           alt="green iguana"
           height="140"
-          image="https://w0.peakpx.com/wallpaper/526/99/HD-wallpaper-mountain-2d-2d-landscape-black-blue-foggy-mountains-purple-trees-violet.jpg"
+          image={card.cover}
         />
-        <CardContent sx={{ p: 2, '&:last-child': { p: 2 } }}>
-          <Typography >
-            Card...
-          </Typography>
-        </CardContent>
-        <CardActions sx={{ paddingTop: 0 }}>
-          <Button size="small" startIcon={<GroupIcon />}>20</Button>
-          <Button size="small" startIcon={<CommentIcon />}>15</Button>
-          <Button size="small" startIcon={<AttachmentIcon />}>10</Button>
-        </CardActions>
-      </MuiCard>
-    );
-  }
-  return (
-    <MuiCard sx={{ cursor: 'pointer', overflow: 'unset' }}>
+      }
+
       <CardContent sx={{ p: 2, '&:last-child': { p: 2 } }}>
         <Typography >
-          No Data
+          {card?.title}
         </Typography>
       </CardContent>
+
+      {showCardActions &&
+        <CardActions sx={{ paddingTop: 0 }}>
+          {!!card?.memberIds.length &&
+            <Button size="small" startIcon={<GroupIcon />}>{card.memberIds.length}</Button>
+          }
+          {!!card?.comments.length &&
+            <Button size="small" startIcon={<CommentIcon />}>{card.comments.length}</Button>
+          }
+          {!!card?.attachments.length &&
+            <Button size="small" startIcon={<AttachmentIcon />}>{card.attachments.length}</Button>
+          }
+        </CardActions>
+      }
     </MuiCard>
   );
 }
