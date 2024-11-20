@@ -1,4 +1,4 @@
-import ModeSelect from '~/components/ModeSelect';
+import ModeSelect from '~/components/ModeSelect/ModeSelect';
 import { Box } from '@mui/material';
 import AppsIcon from '@mui/icons-material/Apps';
 import SvgIcon from '@mui/material/SvgIcon';

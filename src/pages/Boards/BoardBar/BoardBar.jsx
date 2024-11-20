@@ -21,7 +21,7 @@ const MENU_STYLES = {
     color: 'primary.main'
   },
   '&:hover': {
-    backgroundColor: (theme) => (alpha(theme.palette.primary.main, 0.06))
+    backgroundColor: (theme) => (alpha(theme.palette.primary.main, 0.05))
   }
 };
 
