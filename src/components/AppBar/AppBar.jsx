@@ -1,5 +1,5 @@
 import ModeSelect from '~/components/ModeSelect/ModeSelect';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import AppsIcon from '@mui/icons-material/Apps';
 import SvgIcon from '@mui/material/SvgIcon';
 import { ReactComponent as TaskProIcon } from '~/assets/TaskProIcon.svg';

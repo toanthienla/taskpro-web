@@ -1,86 +1,66 @@
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
+import HoverMenu from 'material-ui-popup-state/HoverMenu';
 import MenuItem from '@mui/material/MenuItem';
-import { Box } from '@mui/material';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Typography from '@mui/material/Typography';
-import ContentCut from '@mui/icons-material/ContentCut';
-import ContentCopy from '@mui/icons-material/ContentCopy';
-import ContentPaste from '@mui/icons-material/ContentPaste';
-import Cloud from '@mui/icons-material/Cloud';
-import Divider from '@mui/material/Divider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Check from '@mui/icons-material/Check';
+import {
+  usePopupState,
+  bindFocus,
+  bindHover,
+  bindMenu
+} from 'material-ui-popup-state/hooks';
 
 function Templates() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+  const popupState = usePopupState({
+    variant: 'popover',
+    popupId: 'templates'
+  });
   return (
-    <Box>
+    <>
       <Button
-        id="basic-button-templates"
-        aria-controls={open ? 'basic-menu-templates' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        variant="text"
         endIcon={<ExpandMoreIcon />}
+        {...bindFocus(popupState)}
+        {...bindHover(popupState)}
       >
         Templates
       </Button>
-      <Menu
-        id="basic-menu-templates"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button-templates'
-        }}
+      <HoverMenu
+        {...bindMenu(popupState)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
         <MenuItem>
-          <ListItemIcon>
-            <ContentCut fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Cut</ListItemText>
-          <Typography variant="body2" color="text.secondary">
-            ⌘X
-          </Typography>
+          <ListItemText inset>Single</ListItemText>
+        </MenuItem>
+        <MenuItem>
+          <ListItemText inset>1.15</ListItemText>
+        </MenuItem>
+        <MenuItem>
+          <ListItemText inset>Double</ListItemText>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
-            <ContentCopy fontSize="small" />
+            <Check />
           </ListItemIcon>
-          <ListItemText>Copy</ListItemText>
-          <Typography variant="body2" color="text.secondary">
-            ⌘C
-          </Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <ContentPaste fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Paste</ListItemText>
-          <Typography variant="body2" color="text.secondary">
-            ⌘V
-          </Typography>
+          Custom: 1.2
         </MenuItem>
         <Divider />
         <MenuItem>
-          <ListItemIcon>
-            <Cloud fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Web Clipboard</ListItemText>
+          <ListItemText>Add space before paragraph</ListItemText>
         </MenuItem>
-      </Menu>
-    </Box>
-
+        <MenuItem>
+          <ListItemText>Add space after paragraph</ListItemText>
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <ListItemText>Custom spacing...</ListItemText>
+        </MenuItem>
+      </HoverMenu>
+    </>
   );
 }
 

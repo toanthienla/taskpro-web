@@ -1,44 +1,37 @@
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
+import HoverMenu from 'material-ui-popup-state/HoverMenu';
 import MenuItem from '@mui/material/MenuItem';
-import { Box } from '@mui/material';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Check from '@mui/icons-material/Check';
-import Divider from '@mui/material/Divider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Check from '@mui/icons-material/Check';
+import {
+  usePopupState,
+  bindFocus,
+  bindHover,
+  bindMenu
+} from 'material-ui-popup-state/hooks';
 
 function Recent() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+  const popupState = usePopupState({
+    variant: 'popover',
+    popupId: 'recent'
+  });
   return (
-    <Box>
+    <>
       <Button
-        id="basic-button-recent"
-        aria-controls={open ? 'basic-menu-recent' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        variant="text"
         endIcon={<ExpandMoreIcon />}
+        {...bindFocus(popupState)}
+        {...bindHover(popupState)}
       >
         Recent
       </Button>
-      <Menu
-        id="basic-menu-recent"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button-recent'
-        }}
+      <HoverMenu
+        {...bindMenu(popupState)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
         <MenuItem>
           <ListItemText inset>Single</ListItemText>
@@ -66,9 +59,8 @@ function Recent() {
         <MenuItem>
           <ListItemText>Custom spacing...</ListItemText>
         </MenuItem>
-      </Menu>
-    </Box>
-
+      </HoverMenu>
+    </>
   );
 }
 

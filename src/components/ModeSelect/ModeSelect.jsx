@@ -1,11 +1,11 @@
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import SettingsBrightness from '@mui/icons-material/SettingsBrightness';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import ComputerIcon from '@mui/icons-material/Computer';
 import { useColorScheme } from '@mui/material/styles';
 
 function ModeSelect() {
@@ -17,7 +17,13 @@ function ModeSelect() {
   };
 
   return (
-    <FormControl size="small" sx={{ minWidth: '120px' }}>
+    <FormControl size="small"
+      sx={{
+        minWidth: '120px',
+        '&.MuiBackdrop': {
+          backgroundColor: 'red'
+        }
+      }} >
       <InputLabel id="label-theme-mode"
         sx={{
           color: 'primary.light',
@@ -61,7 +67,7 @@ function ModeSelect() {
         </MenuItem>
         <MenuItem value={'system'}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <SettingsBrightness /> System
+            <ComputerIcon /> System
           </Box>
         </MenuItem>
       </Select>

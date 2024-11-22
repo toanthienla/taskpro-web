@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import Menu from '@mui/material/Menu';
@@ -11,13 +11,13 @@ import ContentPaste from '@mui/icons-material/ContentPaste';
 import Divider from '@mui/material/Divider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddCardIcon from '@mui/icons-material/AddCard';
-import DeleteIcon from '@mui/icons-material/Delete';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import Cards from './Cards/Cards';
 import { mapOrder } from '~/utils/sorts';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -104,15 +104,15 @@ function Column({ column }) {
           <Divider />
           <MenuItem>
             <ListItemIcon>
-              <DeleteIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText>Remove column</ListItemText>
-          </MenuItem>
-          <MenuItem>
-            <ListItemIcon>
               <ArchiveIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>Archive column</ListItemText>
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <DeleteOutlineIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Remove column</ListItemText>
           </MenuItem>
         </Menu>
 

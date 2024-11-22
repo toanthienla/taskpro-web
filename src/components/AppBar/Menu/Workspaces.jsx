@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
+import HoverMenu from 'material-ui-popup-state/HoverMenu';
 import MenuItem from '@mui/material/MenuItem';
-import { Box } from '@mui/material';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Typography from '@mui/material/Typography';
@@ -10,39 +9,34 @@ import ContentCut from '@mui/icons-material/ContentCut';
 import ContentCopy from '@mui/icons-material/ContentCopy';
 import ContentPaste from '@mui/icons-material/ContentPaste';
 import Cloud from '@mui/icons-material/Cloud';
-import Divider from '@mui/material/Divider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-function Workspaces() {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+import {
+  usePopupState,
+  bindFocus,
+  bindHover,
+  bindMenu
+} from 'material-ui-popup-state/hooks';
 
+const Workspaces = () => {
+  const popupState = usePopupState({
+    variant: 'popover',
+    popupId: 'workspaces'
+  });
   return (
-    <Box >
+    <>
       <Button
-        id="basic-button-workspaces"
-        aria-controls={open ? 'basic-menu-workspaces' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        variant="text"
         endIcon={<ExpandMoreIcon />}
+        {...bindHover(popupState)}
+        {...bindFocus(popupState)}
       >
         Workspaces
       </Button>
-      <Menu
-        id="basic-menu-workspaces"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button-workspaces'
-        }}
+      <HoverMenu
+        {...bindMenu(popupState)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
         <MenuItem>
           <ListItemIcon>
@@ -78,10 +72,9 @@ function Workspaces() {
           </ListItemIcon>
           <ListItemText>Web Clipboard</ListItemText>
         </MenuItem>
-      </Menu>
-    </Box>
-
+      </HoverMenu>
+    </>
   );
-}
+};
 
 export default Workspaces;
