@@ -1,10 +1,17 @@
 import Box from '@mui/material/Box';
 import Columns from './Columns/Columns';
 import { mapOrder } from '~/utils/sorts';
-import { DndContext } from '@dnd-kit/core';
+import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { useEffect, useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
 import { useSensor, useSensors, MouseSensor, TouchSensor } from '@dnd-kit/core';
+import Column from './Columns/Column/Column';
+import Card from './Columns/Column/Cards/Card/Card';
+
+const DRAG_TYPE = {
+  CARD: 'card',
+  COLUMN: 'column'
+};
 
 function BoardContent({ board }) {
   const [orderedColumns, setOrderedColumns] = useState([]);
@@ -26,6 +33,15 @@ function BoardContent({ board }) {
   });
   const sensors = useSensors(mouseSensor, touchSensor);
 
+  const [dragItemId, setDragItemId] = useState();
+  const [dragItemType, setDragItemType] = useState();
+  const [dragItemData, setDragItemData] = useState();
+  const handleDragStart = (event) => {
+    setDragItemId(event?.active?.id);
+    setDragItemType(event?.active?.data?.current?.columnId ? DRAG_TYPE.CARD : DRAG_TYPE.COLUMN);
+    setDragItemData(event?.active?.data?.current);
+  };
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
@@ -39,10 +55,14 @@ function BoardContent({ board }) {
       // Array use for update in dbms
       // console.log(dndKitOrderedColumns.map((column) => column._id));
     }
+
+    setDragItemId(null);
+    setDragItemType(null);
+    setDragItemData(null);
   };
 
   return (
-    <DndContext onDragEnd={handleDragEnd} sensors={sensors}>
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
       <Box sx={{
         height: (theme) => theme.taskPro.boardContentHeight,
         width: '100%',
@@ -54,6 +74,9 @@ function BoardContent({ board }) {
         overflowY: 'hidden'
       }}>
         <Columns columns={orderedColumns}></Columns>
+        <DragOverlay>
+          {dragItemId ? (dragItemType === DRAG_TYPE.COLUMN ? <Column column={dragItemData} /> : <Card card={dragItemData} />) : null}
+        </DragOverlay>
       </Box>
     </DndContext>
   );

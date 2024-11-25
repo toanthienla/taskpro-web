@@ -14,14 +14,15 @@ function Card({ card }) {
 
   const showCardActions = !!card?.memberIds.length || !!card?.comments.length || !!card?.attachments.length;
 
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: card._id,
     data: { ...card }
   });
   const dndKitStyle = {
     transform: CSS.Translate.toString(transform),
     transition,
-    touchAction: 'none'
+    touchAction: 'none',
+    opacity: isDragging ? 0.2 : undefined
   };
 
   return (
