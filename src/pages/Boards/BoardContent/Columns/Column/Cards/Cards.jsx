@@ -1,5 +1,6 @@
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import Card from './Card/Card';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 function Cards({ cards }) {
   return (
@@ -13,7 +14,9 @@ function Cards({ cards }) {
               ${theme.taskPro.columnFooterHeight}
             )`
     }}>
-      {cards?.map((card) => <Card key={card._id} card={card} />)}
+      <SortableContext items={cards?.map((c) => c._id)} strategy={verticalListSortingStrategy}>
+        {cards?.map((card) => <Card key={card._id} card={card} />)}
+      </SortableContext >
     </Box >
   );
 }

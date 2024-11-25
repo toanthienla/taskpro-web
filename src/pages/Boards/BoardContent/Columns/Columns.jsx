@@ -1,14 +1,17 @@
 import Column from './Column/Column';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
+import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 
 function Columns({ columns }) {
   return (
     <>
 
       {/* List columns */}
-      {columns?.map((column) => <Column key={column._id} column={column} />)}
+      <SortableContext items={columns?.map((c) => c._id)} strategy={horizontalListSortingStrategy}>
+        {columns?.map((column) => <Column key={column._id} column={column} />)}
+      </SortableContext>
 
       {/* Add another column button */}
       <Box sx={{
