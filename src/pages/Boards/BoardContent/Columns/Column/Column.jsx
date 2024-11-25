@@ -18,6 +18,8 @@ import DragHandleIcon from '@mui/icons-material/DragHandle';
 import Cards from './Cards/Cards';
 import { mapOrder } from '~/utils/sorts';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -29,19 +31,31 @@ function Column({ column }) {
     setAnchorEl(null);
   };
 
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: column._id,
+    data: { ...column }
+  });
+  const dndKitStyle = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    touchAction: 'none'
+  };
+
   const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id');
 
   return (
 
-    < Box sx={{
-      maxWidth: '300px',
-      minWidth: '300px',
-      ml: 2,
-      bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#1e2341' : '#f0f5ff'),
-      borderRadius: '6px',
-      height: 'fit-content',
-      maxHeight: (theme) => `calc(${theme.taskPro.boardContentHeight} - ${theme.spacing(5)})`
-    }}>
+    < Box
+      ref={setNodeRef} style={dndKitStyle} {...attributes} {...listeners}
+      sx={{
+        maxWidth: '300px',
+        minWidth: '300px',
+        ml: 2,
+        bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#1e2341' : '#f0f5ff'),
+        borderRadius: '6px',
+        height: 'fit-content',
+        maxHeight: (theme) => `calc(${theme.taskPro.boardContentHeight} - ${theme.spacing(5)})`
+      }}>
       {/* Column Header  */}
       < Box sx={{
         height: (theme) => theme.taskPro.columnHeaderHeight,
