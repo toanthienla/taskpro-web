@@ -4,9 +4,10 @@ import { mapOrder } from '~/utils/sorts';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { useEffect, useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
-import { useSensor, useSensors, MouseSensor, TouchSensor } from '@dnd-kit/core';
+import { useSensor, useSensors, MouseSensor, TouchSensor, defaultDropAnimationSideEffects } from '@dnd-kit/core';
 import Column from './Columns/Column/Column';
 import Card from './Columns/Column/Cards/Card/Card';
+import { cloneDeep } from 'lodash';
 
 const DRAG_TYPE = {
   CARD: 'card',
@@ -33,6 +34,7 @@ function BoardContent({ board }) {
   });
   const sensors = useSensors(mouseSensor, touchSensor);
 
+  // Life cycle of Dragging
   const [dragItemId, setDragItemId] = useState();
   const [dragItemType, setDragItemType] = useState();
   const [dragItemData, setDragItemData] = useState();
@@ -41,13 +43,51 @@ function BoardContent({ board }) {
     setDragItemType(event?.active?.data?.current?.columnId ? DRAG_TYPE.CARD : DRAG_TYPE.COLUMN);
     setDragItemData(event?.active?.data?.current);
   };
+  const handleDragOver = (event) => {
+    const { active, over } = event;
+    if (!over || !active) return;
 
+    if (dragItemType === DRAG_TYPE.CARD) {
+      const overItemData = over?.data?.current;
+      const { _id: activeCardId, columnId: activeColumnId } = dragItemData;
+      const { _id: overCardId, columnId: overColumnId } = overItemData;
+
+      if (activeColumnId !== overColumnId) {
+        setOrderedColumns((prevOrderedColumns) => {
+          const newOrderedColumns = cloneDeep(prevOrderedColumns);
+          const newActiveColumn = newOrderedColumns?.find((column) => column._id === activeColumnId);
+          const newOverColumn = newOrderedColumns?.find((column) => column._id === overColumnId);
+
+          // Remove the card with activeCardId from the relevant column
+          if (newActiveColumn) {
+            newActiveColumn.cards = newActiveColumn?.cards?.filter((card) => card?._id !== activeCardId);
+            newActiveColumn.cardOrderIds = newActiveColumn?.cards?.map((card) => card?._id);
+          }
+
+          // Add card to new column by overCardIndex (remove if existed)
+          if (newOverColumn) {
+            const overCardIndex = newOverColumn?.cards?.findIndex((card) => card?._id === overCardId);
+            const isBelowOverItem =
+              active.rect.current.translated &&
+              active.rect.current.translated.top > over.rect.top + over.rect.height;
+            const modifier = isBelowOverItem ? 1 : 0;
+            const newIndex = overCardIndex >= 0 ? overCardIndex + modifier : newOverColumn?.cards?.length + 1;
+
+            newOverColumn.cards = newOverColumn?.cards?.filter((card) => card?._id !== activeCardId);
+            newOverColumn.cards = newOverColumn?.cards?.toSpliced(newIndex, 0, dragItemData);
+            newOverColumn.cardOrderIds = newOverColumn?.cards?.map((card) => card?._id);
+          }
+
+          return newOrderedColumns;
+        });
+      }
+    }
+  };
   const handleDragEnd = (event) => {
     const { active, over } = event;
+    if (!over || !active) return;
 
-    if (!over) return;
-
-    if (active.id !== over.id) {
+    if (dragItemType === DRAG_TYPE.COLUMN && active.id !== over.id) {
       const fromIndex = orderedColumns.findIndex((c) => c._id === active.id);
       const toIndex = orderedColumns.findIndex((c) => c._id === over.id);
       const dndKitOrderedColumns = arrayMove(orderedColumns, fromIndex, toIndex);
@@ -61,8 +101,18 @@ function BoardContent({ board }) {
     setDragItemData(null);
   };
 
+  const dropAnimation = {
+    sideEffects: defaultDropAnimationSideEffects({
+      styles: {
+        active: {
+          opacity: '0.5'
+        }
+      }
+    })
+  };
+
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} sensors={sensors}>
+    <DndContext onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd} sensors={sensors} >
       <Box sx={{
         height: (theme) => theme.taskPro.boardContentHeight,
         width: '100%',
@@ -74,7 +124,7 @@ function BoardContent({ board }) {
         overflowY: 'hidden'
       }}>
         <Columns columns={orderedColumns}></Columns>
-        <DragOverlay>
+        <DragOverlay dropAnimation={dropAnimation}>
           {dragItemId ? (dragItemType === DRAG_TYPE.COLUMN ? <Column column={dragItemData} /> : <Card card={dragItemData} />) : null}
         </DragOverlay>
       </Box>
