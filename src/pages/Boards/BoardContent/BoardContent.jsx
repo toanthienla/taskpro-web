@@ -4,7 +4,7 @@ import { mapOrder } from '~/utils/sorts';
 import { DndContext, DragOverlay } from '@dnd-kit/core';
 import { useEffect, useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
-import { useSensor, useSensors, MouseSensor, TouchSensor, defaultDropAnimationSideEffects } from '@dnd-kit/core';
+import { useSensor, useSensors, MouseSensor, TouchSensor, defaultDropAnimationSideEffects, closestCorners } from '@dnd-kit/core';
 import Column from './Columns/Column/Column';
 import Card from './Columns/Column/Cards/Card/Card';
 import { cloneDeep } from 'lodash';
@@ -38,58 +38,84 @@ function BoardContent({ board }) {
   const [dragItemId, setDragItemId] = useState();
   const [dragItemType, setDragItemType] = useState();
   const [dragItemData, setDragItemData] = useState();
+
   const handleDragStart = (event) => {
     setDragItemId(event?.active?.id);
     setDragItemType(event?.active?.data?.current?.columnId ? DRAG_TYPE.CARD : DRAG_TYPE.COLUMN);
     setDragItemData(event?.active?.data?.current);
   };
+
   const handleDragOver = (event) => {
+    if (dragItemType === DRAG_TYPE.COLUMN) return;
+
     const { active, over } = event;
     if (!over || !active) return;
 
-    if (dragItemType === DRAG_TYPE.CARD) {
-      const overItemData = over?.data?.current;
-      const { _id: activeCardId, columnId: activeColumnId } = dragItemData;
-      const { _id: overCardId, columnId: overColumnId } = overItemData;
+    const overItemData = over?.data?.current;
+    const activeItemData = active?.data?.current;
+    const { _id: activeCardId, columnId: activeColumnId } = activeItemData;
+    const { _id: overCardId, columnId: overColumnId } = overItemData;
 
-      if (activeColumnId !== overColumnId) {
-        setOrderedColumns((prevOrderedColumns) => {
-          const newOrderedColumns = cloneDeep(prevOrderedColumns);
-          const newActiveColumn = newOrderedColumns?.find((column) => column._id === activeColumnId);
-          const newOverColumn = newOrderedColumns?.find((column) => column._id === overColumnId);
+    if (!activeColumnId || !overColumnId || !activeCardId || !overCardId) return;
 
-          // Remove the card with activeCardId from the relevant column
-          if (newActiveColumn) {
-            newActiveColumn.cards = newActiveColumn?.cards?.filter((card) => card?._id !== activeCardId);
-            newActiveColumn.cardOrderIds = newActiveColumn?.cards?.map((card) => card?._id);
-          }
+    if (activeColumnId !== overColumnId) {
+      setOrderedColumns((prevOrderedColumns) => {
+        const newOrderedColumns = cloneDeep(prevOrderedColumns);
+        const newActiveColumn = newOrderedColumns?.find(column => column._id === activeColumnId);
+        const newOverColumn = newOrderedColumns?.find(column => column._id === overColumnId);
 
-          // Add card to new column by overCardIndex (remove if existed)
-          if (newOverColumn) {
-            const overCardIndex = newOverColumn?.cards?.findIndex((card) => card?._id === overCardId);
-            const isBelowOverItem =
-              active.rect.current.translated &&
-              active.rect.current.translated.top > over.rect.top + over.rect.height;
-            const modifier = isBelowOverItem ? 1 : 0;
-            const newIndex = overCardIndex >= 0 ? overCardIndex + modifier : newOverColumn?.cards?.length + 1;
+        // Remove the card with activeCardId from the relevant column
+        if (newActiveColumn) {
+          newActiveColumn.cards = newActiveColumn?.cards?.filter(card => card?._id !== activeCardId);
+          newActiveColumn.cardOrderIds = newActiveColumn?.cards?.map(card => card?._id);
+        }
 
-            newOverColumn.cards = newOverColumn?.cards?.filter((card) => card?._id !== activeCardId);
-            newOverColumn.cards = newOverColumn?.cards?.toSpliced(newIndex, 0, dragItemData);
-            newOverColumn.cardOrderIds = newOverColumn?.cards?.map((card) => card?._id);
-          }
+        // Add card to new column by overCardIndex (remove if existed)
+        if (newOverColumn) {
+          const overCardIndex = newOverColumn?.cards?.findIndex(card => card?._id === overCardId);
+          const isBelowOverItem =
+            active.rect.current.translated &&
+            active.rect.current.translated.top > over.rect.top + over.rect.height;
+          const modifier = isBelowOverItem ? 1 : 0;
+          const newIndex = overCardIndex >= 0 ? overCardIndex + modifier : newOverColumn?.cards?.length + 1;
 
-          return newOrderedColumns;
-        });
-      }
+          newOverColumn.cards = newOverColumn?.cards?.filter(card => card?._id !== activeCardId);
+          newOverColumn.cards = newOverColumn?.cards?.toSpliced(newIndex, 0, dragItemData);
+          newOverColumn.cardOrderIds = newOverColumn?.cards?.map(card => card?._id);
+          newOverColumn.cards[newIndex].columnId = overColumnId; // Update column id of active card
+        }
+
+        return newOrderedColumns;
+      });
     }
   };
+
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over || !active) return;
 
+    // Only run if is card change in the same column
+    if (dragItemType === DRAG_TYPE.CARD && active.id !== over.id) {
+      const columnId = active?.data?.current?.columnId;
+      const activeItemId = active?.data?.current?._id;
+      const overItemId = over?.data?.current?._id;
+
+      const fromIndex = orderedColumns?.find(column => column?._id === columnId)?.cards?.findIndex(card => card?._id === activeItemId);
+      const toIndex = orderedColumns?.find(column => column?._id === columnId)?.cards?.findIndex(card => card?._id === overItemId);
+      const dndKitOrderedColumns = orderedColumns?.map(column => {
+        if (column?._id !== columnId) return column;
+        return {
+          ...column,
+          cardOrderIds: arrayMove(column.cardOrderIds, fromIndex, toIndex),
+          cards: arrayMove(column.cards, fromIndex, toIndex)
+        };
+      });
+      setOrderedColumns(dndKitOrderedColumns);
+    }
+
     if (dragItemType === DRAG_TYPE.COLUMN && active.id !== over.id) {
-      const fromIndex = orderedColumns.findIndex((c) => c._id === active.id);
-      const toIndex = orderedColumns.findIndex((c) => c._id === over.id);
+      const fromIndex = orderedColumns.findIndex(c => c._id === active.id);
+      const toIndex = orderedColumns.findIndex(c => c._id === over.id);
       const dndKitOrderedColumns = arrayMove(orderedColumns, fromIndex, toIndex);
       setOrderedColumns(dndKitOrderedColumns);
       // Array use for update in dbms
@@ -112,7 +138,9 @@ function BoardContent({ board }) {
   };
 
   return (
-    <DndContext onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd} sensors={sensors} >
+    <DndContext
+      onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}
+      sensors={sensors} collisionDetection={closestCorners}>
       <Box sx={{
         height: (theme) => theme.taskPro.boardContentHeight,
         width: '100%',

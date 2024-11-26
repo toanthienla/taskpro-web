@@ -39,13 +39,14 @@ function Column({ column }) {
     transform: CSS.Translate.toString(transform),
     transition,
     height: '100%',
+    // touchAction: 'none',
     opacity: isDragging ? 0.5 : undefined
   };
 
   const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id');
 
   return (
-    <Box ref={setNodeRef} style={dndKitStyle} {...attributes}>
+    <div ref={setNodeRef} style={dndKitStyle} {...attributes}>
       < Box
         {...listeners}
         sx={{
@@ -146,7 +147,7 @@ function Column({ column }) {
           </Tooltip>
         </Box >
       </Box >
-    </Box>
+    </div>
   );
 }
 
