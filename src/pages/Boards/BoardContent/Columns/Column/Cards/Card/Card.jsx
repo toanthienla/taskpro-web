@@ -12,7 +12,7 @@ import { CSS } from '@dnd-kit/utilities';
 
 function Card({ card }) {
 
-  const showCardActions = !!card?.memberIds.length || !!card?.comments.length || !!card?.attachments.length;
+  const showCardActions = !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length;
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: card._id,
@@ -28,7 +28,10 @@ function Card({ card }) {
   return (
     <MuiCard
       ref={setNodeRef} style={dndKitStyle} {...attributes} {...listeners}
-      sx={{ cursor: 'pointer', overflow: 'unset' }}>
+      sx={{
+        cursor: 'pointer', overflow: 'unset',
+        display: card?.FE_PlaceholderCard ? 'none' : 'block'
+      }}>
       {card?.cover &&
         <CardMedia
           component="img"

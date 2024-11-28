@@ -10,7 +10,8 @@ import {
 } from '@dnd-kit/core';
 import Column from './Columns/Column/Column';
 import Card from './Columns/Column/Cards/Card/Card';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
+import { generatePlaceholderCard } from '~/utils/formatters';
 
 const DRAG_TYPE = {
   CARD: 'card',
@@ -70,6 +71,10 @@ function BoardContent({ board }) {
         // Remove the card with activeCardId from the relevant column
         if (newActiveColumn) {
           newActiveColumn.cards = newActiveColumn?.cards?.filter(card => card?._id !== activeCardId);
+          if (isEmpty(newActiveColumn?.cards)) {
+            newActiveColumn.cards = [generatePlaceholderCard(newActiveColumn)];
+          }
+          // Update cardOrderIds
           newActiveColumn.cardOrderIds = newActiveColumn?.cards?.map(card => card?._id);
         }
 
@@ -84,8 +89,13 @@ function BoardContent({ board }) {
 
           newOverColumn.cards = newOverColumn?.cards?.filter(card => card?._id !== activeCardId);
           newOverColumn.cards = newOverColumn?.cards?.toSpliced(newIndex, 0, dragItemData);
-          newOverColumn.cardOrderIds = newOverColumn?.cards?.map(card => card?._id);
           newOverColumn.cards[newIndex].columnId = overColumnId; // Update column id of active card
+
+          // Remove FE_PlaceholderCard if existed (Drag card to empty column)
+          newOverColumn.cards = newOverColumn?.cards?.filter(card => !card?.FE_PlaceholderCard);
+
+          // Update cardOrderIds
+          newOverColumn.cardOrderIds = newOverColumn?.cards?.map(card => card?._id);
         }
 
         return newOrderedColumns;

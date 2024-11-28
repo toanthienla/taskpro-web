@@ -6,7 +6,7 @@ export const mockData = {
     type: 'public',
     ownerIds: [],
     memberIds: [],
-    columnOrderIds: ['column-id-01', 'column-id-02', 'column-id-03'],
+    columnOrderIds: ['column-id-01', 'column-id-02', 'column-id-03', 'column-id-04'],
     columns: [
       {
         _id: 'column-id-01',
