@@ -1,10 +1,13 @@
 import Box from '@mui/material/Box';
 import Columns from './Columns/Columns';
 import { mapOrder } from '~/utils/sorts';
-import { DndContext, DragOverlay } from '@dnd-kit/core';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
-import { useSensor, useSensors, MouseSensor, TouchSensor, defaultDropAnimationSideEffects, closestCorners } from '@dnd-kit/core';
+import {
+  DndContext, DragOverlay,
+  useSensor, useSensors, MouseSensor, TouchSensor, defaultDropAnimationSideEffects,
+  closestCorners, pointerWithin, getFirstCollision
+} from '@dnd-kit/core';
 import Column from './Columns/Column/Column';
 import Card from './Columns/Column/Cards/Card/Card';
 import { cloneDeep } from 'lodash';
@@ -35,9 +38,9 @@ function BoardContent({ board }) {
   const sensors = useSensors(mouseSensor, touchSensor);
 
   // Life cycle of Dragging
-  const [dragItemId, setDragItemId] = useState();
-  const [dragItemType, setDragItemType] = useState();
-  const [dragItemData, setDragItemData] = useState();
+  const [dragItemId, setDragItemId] = useState(null);
+  const [dragItemType, setDragItemType] = useState(null);
+  const [dragItemData, setDragItemData] = useState(null);
 
   const handleDragStart = (event) => {
     setDragItemId(event?.active?.id);
@@ -56,7 +59,7 @@ function BoardContent({ board }) {
     const { _id: activeCardId, columnId: activeColumnId } = activeItemData;
     const { _id: overCardId, columnId: overColumnId } = overItemData;
 
-    if (!activeColumnId || !overColumnId || !activeCardId || !overCardId) return;
+    if (!activeColumnId || !overColumnId) return;
 
     if (activeColumnId !== overColumnId) {
       setOrderedColumns((prevOrderedColumns) => {
@@ -137,10 +140,34 @@ function BoardContent({ board }) {
     })
   };
 
+  const collisionDetectionStrategy = useCallback((args) => {
+    if (dragItemType === DRAG_TYPE.COLUMN) {
+      return closestCorners(args);
+    }
+
+    const pointerCollisions = pointerWithin(args);
+    if (pointerCollisions.length === 0) return;
+
+    // Get overId to check if overId is column
+    let overId = getFirstCollision(pointerCollisions, 'id');
+    if (overId) {
+      const checkColumn = orderedColumns?.find(column => column._id === overId);
+      if (checkColumn) {
+        overId = closestCorners({
+          ...args,
+          droppableContainers: args.droppableContainers.filter(container => container.id !== overId
+            && checkColumn?.cardOrderIds?.includes(container.id))
+        })[0]?.id;
+      }
+      return [{ id: overId }];
+    }
+
+  }, [dragItemType, orderedColumns]);
+
   return (
     <DndContext
       onDragStart={handleDragStart} onDragOver={handleDragOver} onDragEnd={handleDragEnd}
-      sensors={sensors} collisionDetection={closestCorners}>
+      sensors={sensors} collisionDetection={collisionDetectionStrategy}>
       <Box sx={{
         height: (theme) => theme.taskPro.boardContentHeight,
         width: '100%',
@@ -151,7 +178,10 @@ function BoardContent({ board }) {
         overflowX: 'auto',
         overflowY: 'hidden'
       }}>
+
         <Columns columns={orderedColumns}></Columns>
+
+        {/* DragOverlay help fix dragging out flickering animation */}
         <DragOverlay dropAnimation={dropAnimation}>
           {dragItemId ? (dragItemType === DRAG_TYPE.COLUMN ? <Column column={dragItemData} /> : <Card card={dragItemData} />) : null}
         </DragOverlay>
