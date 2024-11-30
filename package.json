@@ -1,10 +1,11 @@
 {
-    "name": "taskpro",
+    "name": "taskpro-web",
     "private": true,
-    "version": "0.0.0",
+    "version": "1.0.0",
+    "author": "Toan La",
     "type": "module",
     "engines": {
-        "node": ">=18.x"
+        "node": "18.16.0"
     },
     "scripts": {
         "dev": "vite --host",
@@ -23,7 +24,7 @@
         "material-ui-popup-state": "^5.3.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "taskpro": "file:"
+        "taskpro-web": "file:"
     },
     "devDependencies": {
         "@types/react": "^18.0.28",
