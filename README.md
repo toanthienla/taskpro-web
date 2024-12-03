@@ -13,16 +13,16 @@ TaskPro is built using modern web development tools and technologies:
 
 ### **Frontend**
 
--   **React (v18.2.0)**: The core library for building user interfaces.
+-   **React (v18.x)**: The core library for building user interfaces.
 -   **Vite**: A lightning-fast development environment.
--   **Material-UI (MUI v5.16.7)**: A powerful component library UI design.
--   **DNDKit (Core v6.1.0, Sortable v7.0.2)**: Handles drag-and-drop interactions.
--   **Material-UI Popup State (v5.3.1)**: Enhanced pop-ups improve user experiences.
--   **Vite Plugin SVGR (v3.3.0)**: Facilitates SVG file integration into React components.
+-   **Material-UI (MUI v5.x)**: A powerful component library UI design.
+-   **DNDKit (Core v6.1.0, Sortable v7.x)**: Handles drag-and-drop interactions.
+-   **Material-UI Popup State (v5.x)**: Enhanced pop-ups improve user experiences.
+-   **Vite Plugin SVGR (v3.x)**: Facilitates SVG file integration into React components.
 
 ### **Development Tools**
 
--   **ESLint (v8.38.0)**: Enforces consistent and error-free coding practices.
+-   **ESLint (v8.x)**: Enforces consistent and error-free coding practices.
 
 ### **Folder Structure**
 
@@ -37,4 +37,4 @@ Folder src is organized into a clean and modular folder structure:
 
 ## Prerequisites
 
--   **Node.js (v18.x)**: Ensure your system is running this version.
+-   **Node.js (>= v18.x)**: Ensure node is running this version.
