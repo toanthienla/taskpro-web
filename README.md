@@ -26,8 +26,7 @@ TaskPro is built using modern web development tools and technologies:
 
 ### **Folder Structure**
 
-Folder src is organized into a clean and modular folder structure:
-
+The src folder follows a well-organized and modular structure:
 -   **`apis`**: Contains mock data for testing at the frontend.
 -   **`assets`**: Stores static files like images, SVGs, and other media resources.
 -   **`components`**: Reusable UI components such as headers, footers, etc.
