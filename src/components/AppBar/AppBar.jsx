@@ -72,11 +72,8 @@ function AppBar() {
               borderColor: 'primary.main'
             },
             '& label.Mui-focused': {
-              color: 'primar'
+              color: 'primary.main'
             }
-            // '& .Mui-focused .MuiInputAdornment-root .MuiSvgIcon-root': {
-            //   color: ''
-            // } search icon
           }}
         />
         <ModeSelect />

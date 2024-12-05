@@ -6,6 +6,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { alpha } from '@mui/material';
 import { Card as MuiCard } from '@mui/material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -30,7 +31,9 @@ function Card({ card }) {
       ref={setNodeRef} style={dndKitStyle} {...attributes} {...listeners}
       sx={{
         cursor: 'pointer', overflow: 'unset',
-        display: card?.FE_PlaceholderCard ? 'none' : 'block'
+        display: card?.FE_PlaceholderCard ? 'none' : 'block',
+        border: '1px solid transparent',
+        '&:hover': { borderColor: (theme) => alpha(theme.palette.primary.light, 0.5) }
       }}>
       {card?.cover &&
         <CardMedia
@@ -38,6 +41,9 @@ function Card({ card }) {
           alt="green iguana"
           height="140"
           image={card.cover}
+          sx={{
+            borderTopLeftRadius: 'inherit', borderTopRightRadius: 'inherit'
+          }}
         />
       }
 

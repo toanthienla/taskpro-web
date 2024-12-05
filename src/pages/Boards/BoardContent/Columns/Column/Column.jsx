@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,12 +16,14 @@ import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import Cards from './Cards/Cards';
+import CloseIcon from '@mui/icons-material/Close';
 import { mapOrder } from '~/utils/sorts';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 function Column({ column }) {
+  // Menu list on header
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -31,6 +33,42 @@ function Column({ column }) {
     setAnchorEl(null);
   };
 
+  // Add new card
+  const [openAddNewCardForm, setOpenAddNewCardForm] = useState(false);
+  const toggleOpenAddNewCardForm = () => setOpenAddNewCardForm(!openAddNewCardForm);
+  const [isAddCardClick, setIsAddCardClick] = useState(false);
+  const handleAddCardClick = () => {
+    // It use to check button add new card click and prop isAddCardClick to Cards (Column content)
+    setIsAddCardClick(true);
+    toggleOpenAddNewCardForm();
+  };
+  useEffect(() => {
+    if (isAddCardClick)
+      setIsAddCardClick(false);
+  }, [isAddCardClick]);
+
+  // Handle openAddNewColumnForm true when user click outside will false
+  const addNewCardForm = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Close when not click inside footer or textField
+      if (!addNewCardForm?.current?.contains(event?.target) &&
+        event?.target?.id !== 'newTitleTextField'
+      ) {
+        toggleOpenAddNewCardForm();
+      }
+    };
+    if (openAddNewCardForm) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openAddNewCardForm]);
+
+
+  // DndKit
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
@@ -44,7 +82,6 @@ function Column({ column }) {
   };
 
   const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id');
-
   return (
     <div ref={setNodeRef} style={dndKitStyle} {...attributes}>
       < Box
@@ -131,21 +168,56 @@ function Column({ column }) {
             </MenuItem>
           </Menu>
         </Box >
+
         {/* Column List Card  */}
-        <Cards cards={orderedCards} />
+        <Cards cards={orderedCards} openAddNewCardForm={openAddNewCardForm} isAddCardClick={isAddCardClick} />
+
         {/* Column Footer */}
-        < Box sx={{
-          height: (theme) => theme.taskPro.columnFooterHeight,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          p: 2
-        }}>
-          <Button variant="text" sx={{ fontWeight: '600' }} startIcon={<AddCardIcon />}>Add new card</Button>
-          <Tooltip title="Drag to move">
-            <DragHandleIcon sx={{ cursor: 'pointer' }} />
-          </Tooltip>
-        </Box >
+        <Box
+          ref={addNewCardForm}
+          sx={{
+            height: (theme) => theme.taskPro.columnFooterHeight,
+            p: 2
+          }}
+        >
+          {openAddNewCardForm ? (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Button
+                variant="contained"
+                size="small"
+                color="info"
+                onClick={handleAddCardClick}
+                sx={{ marginRight: 1, transition: 'none' }}
+              >
+                Add card
+              </Button>
+              <CloseIcon
+                sx={{ cursor: 'pointer', transition: 'none' }}
+                onClick={toggleOpenAddNewCardForm}
+              />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              <Button
+                variant="text"
+                sx={{ fontWeight: '600', transition: 'none' }}
+                startIcon={<AddCardIcon />}
+                onClick={toggleOpenAddNewCardForm}
+              >
+                Add new card
+              </Button>
+              <Tooltip title="Drag to move">
+                <DragHandleIcon sx={{ cursor: 'pointer' }} />
+              </Tooltip>
+            </Box>
+          )}
+        </Box>
       </Box >
     </div>
   );

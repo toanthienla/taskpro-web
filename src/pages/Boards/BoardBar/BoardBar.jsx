@@ -9,6 +9,7 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Button from '@mui/material/Button';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import Tooltip from '@mui/material/Tooltip';
 import { alpha } from '@mui/material/styles';
 import { capitalizeFirstLetter } from '~/utils/formatters';
 
@@ -40,7 +41,9 @@ function BoardBar({ board }) {
     }}>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Chip icon={<DashboardIcon />} label={board?.title} sx={MENU_STYLES} clickable />
+        <Tooltip title={board?.description}>
+          <Chip icon={<DashboardIcon />} label={board?.title} sx={MENU_STYLES} clickable />
+        </Tooltip>
         <Chip icon={<VpnLockIcon />} label={capitalizeFirstLetter(board?.type)} sx={MENU_STYLES} clickable />
         <Chip icon={<AddToDriveIcon />} label="Add To Google Drive" sx={MENU_STYLES} clickable />
         <Chip icon={<AutoFixHighIcon />} label="Automation" sx={MENU_STYLES} clickable />
