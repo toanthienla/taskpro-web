@@ -6,14 +6,38 @@ import Button from '@mui/material/Button';
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
+import { toast, Bounce } from 'react-toastify';
+import { useTheme } from '@mui/material/styles';
 
-function Columns({ columns }) {
+function Columns({ columns, postNewColumn, postNewCard }) {
+  const theme = useTheme();
+
   // Add new column
   const [newColumnTitle, setNewColumnTitle] = useState('');
   const [openAddNewColumnForm, setOpenAddNewColumnForm] = useState(false);
   const toggleOpenAddNewColumnForm = () => setOpenAddNewColumnForm(!openAddNewColumnForm);
-  const addNewColumn = () => {
-    setNewColumnTitle('');
+  const addNewColumn = async () => {
+    if (newColumnTitle) {
+      setNewColumnTitle('');
+      setOpenAddNewColumnForm(false);
+
+      // AxiosAPI
+      await postNewColumn({
+        title: newColumnTitle
+      });
+    } else {
+      toast.error('Please enter a column title.', {
+        position: 'bottom-right',
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: theme.palette.mode,
+        transition: Bounce
+      });
+    }
   };
 
   // Handle openAddNewColumnForm true when user click outside will false
@@ -38,7 +62,7 @@ function Columns({ columns }) {
 
       {/* List columns */}
       <SortableContext items={columns?.map((c) => c._id)} strategy={horizontalListSortingStrategy}>
-        {columns?.map((column) => <Column key={column._id} column={column} />)}
+        {columns?.map((column) => <Column key={column._id} column={column} postNewCard={postNewCard} />)}
       </SortableContext>
 
       {/* Add another column button */}
@@ -55,18 +79,18 @@ function Columns({ columns }) {
             p: 1
           }}
         >
-          <TextField placeholder="Enter column title..." autoFocus size='small' type='text'
+          <TextField placeholder="Enter column title..." autoFocus size='small' type='text' variant="outlined"
             value={newColumnTitle} onChange={(e) => setNewColumnTitle(e.target.value)}
             sx={{
               width: '100%',
               '& .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'primary.light'
+                borderColor: '#3498db'
               },
               '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'primary.dark'
+                borderColor: '#3498db !important'
               },
               '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: 'info.main'
+                borderColor: '#3498db !important'
               }
             }}
           />

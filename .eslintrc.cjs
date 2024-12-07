@@ -17,7 +17,7 @@ module.exports = {
     // React
     'react-refresh/only-export-components': 'warn',
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn', // useEffect miss dependency
+    'react-hooks/exhaustive-deps': 'off', // useEffect miss dependency
     'react/prop-types': 0,
     'react/display-name': 0,
 

@@ -1,20 +1,15 @@
-import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import Card from './Card/Card';
 import TextField from '@mui/material/TextField';
 import { Card as MuiCard } from '@mui/material';
-
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
-function Cards({ cards, openAddNewCardForm, isAddCardClick }) {
-  // Add new card
-  const [newCardTitle, setNewCardTitle] = useState('');
-  useEffect(() => {
-    if (isAddCardClick) {
-      setNewCardTitle('');
-    }
-  }, [isAddCardClick]);
+function Cards({ cards, openAddNewCardForm, newCardTitle, setNewCardTitle }) {
+
+  const handleOnChangeNewCardTitle = (e) => {
+    setNewCardTitle(e.target.value);
+  };
 
   return (
     < Box sx={{
@@ -37,14 +32,15 @@ function Cards({ cards, openAddNewCardForm, isAddCardClick }) {
           sx={{
             cursor: 'pointer', overflow: 'unset',
             display: 'block',
-            border: '1px solid transparent'
+            border: '1.5px solid transparent',
+            borderColor: '#3498db'
           }}>
           <CardContent sx={{ p: 0, '&:last-child': { p: 0 } }}>
             <TextField placeholder="Enter a title..." autoFocus size='small' type='text' id='newTitleTextField'
-              value={newCardTitle} onChange={(e) => setNewCardTitle(e.target.value)}
+              value={newCardTitle} onChange={handleOnChangeNewCardTitle} data-no-dnd
               sx={{
                 width: '100%',
-                paddingBottom: 1.2,
+                py: 1,
                 '& .MuiOutlinedInput-root': {
                   '& fieldset': {
                     border: 'none'

@@ -22,7 +22,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-function Column({ column }) {
+function Column({ column, postNewCard }) {
   // Menu list on header
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -35,17 +35,18 @@ function Column({ column }) {
 
   // Add new card
   const [openAddNewCardForm, setOpenAddNewCardForm] = useState(false);
+  const [newCardTitle, setNewCardTitle] = useState('');
   const toggleOpenAddNewCardForm = () => setOpenAddNewCardForm(!openAddNewCardForm);
-  const [isAddCardClick, setIsAddCardClick] = useState(false);
-  const handleAddCardClick = () => {
-    // It use to check button add new card click and prop isAddCardClick to Cards (Column content)
-    setIsAddCardClick(true);
+  const handleAddCardClick = async () => {
+    if (newCardTitle) {
+      setNewCardTitle('');
+      await postNewCard({
+        title: newCardTitle,
+        columnId: column._id
+      });
+    }
     toggleOpenAddNewCardForm();
   };
-  useEffect(() => {
-    if (isAddCardClick)
-      setIsAddCardClick(false);
-  }, [isAddCardClick]);
 
   // Handle openAddNewColumnForm true when user click outside will false
   const addNewCardForm = useRef(null);
@@ -64,7 +65,6 @@ function Column({ column }) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openAddNewCardForm]);
 
 
@@ -170,7 +170,8 @@ function Column({ column }) {
         </Box >
 
         {/* Column List Card  */}
-        <Cards cards={orderedCards} openAddNewCardForm={openAddNewCardForm} isAddCardClick={isAddCardClick} />
+        <Cards cards={orderedCards} openAddNewCardForm={openAddNewCardForm}
+          newCardTitle={newCardTitle} setNewCardTitle={setNewCardTitle} />
 
         {/* Column Footer */}
         <Box
@@ -186,6 +187,7 @@ function Column({ column }) {
                 variant="contained"
                 size="small"
                 color="info"
+                data-no-dnd
                 onClick={handleAddCardClick}
                 sx={{ marginRight: 1, transition: 'none' }}
               >
@@ -193,6 +195,7 @@ function Column({ column }) {
               </Button>
               <CloseIcon
                 sx={{ cursor: 'pointer', transition: 'none' }}
+                data-no-dnd
                 onClick={toggleOpenAddNewCardForm}
               />
             </Box>

@@ -5,9 +5,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
 import {
   DndContext, DragOverlay,
-  useSensor, useSensors, MouseSensor, TouchSensor, defaultDropAnimationSideEffects,
+  useSensor, useSensors, defaultDropAnimationSideEffects,
   closestCorners, pointerWithin, getFirstCollision
 } from '@dnd-kit/core';
+import { MouseSensor, TouchSensor } from '~/customLibraries/DndKitSensors';
 import Column from './Columns/Column/Column';
 import Card from './Columns/Column/Cards/Card/Card';
 import { cloneDeep, isEmpty } from 'lodash';
@@ -18,7 +19,7 @@ const DRAG_TYPE = {
   COLUMN: 'column'
 };
 
-function BoardContent({ board }) {
+function BoardContent({ board, postNewColumn, postNewCard, moveColumn }) {
   const [orderedColumns, setOrderedColumns] = useState([]);
   useEffect(() => {
     setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'));
@@ -131,8 +132,9 @@ function BoardContent({ board }) {
       const toIndex = orderedColumns.findIndex(c => c._id === over.id);
       const dndKitOrderedColumns = arrayMove(orderedColumns, fromIndex, toIndex);
       setOrderedColumns(dndKitOrderedColumns);
-      // Array use for update in dbms
-      // console.log(dndKitOrderedColumns.map((column) => column._id));
+
+      // Update columnOrderIds in Board
+      moveColumn(dndKitOrderedColumns.map(column => column._id));
     }
 
     setDragItemId(null);
@@ -189,7 +191,7 @@ function BoardContent({ board }) {
         overflowY: 'hidden'
       }}>
 
-        <Columns columns={orderedColumns}></Columns>
+        <Columns columns={orderedColumns} postNewColumn={postNewColumn} postNewCard={postNewCard}></Columns>
 
         {/* DragOverlay help fix dragging out flickering animation */}
         <DragOverlay dropAnimation={dropAnimation}>
