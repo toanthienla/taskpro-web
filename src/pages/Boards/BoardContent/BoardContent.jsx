@@ -193,8 +193,7 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn, moveCardS
         background: 'linear-gradient(to right, #7828fa, #00f0a0)',
         p: '20px 0',
         display: 'flex',
-        overflowX: 'auto',
-        cursor: 'grab'
+        overflowX: 'auto'
       }}>
         <Columns columns={orderedColumns} postNewColumn={postNewColumn} postNewCard={postNewCard}></Columns>
         {/* DragOverlay help fix dragging out flickering animation */}
