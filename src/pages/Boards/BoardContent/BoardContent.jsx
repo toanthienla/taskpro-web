@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box';
 import Columns from './Columns/Columns';
-import { mapOrder } from '~/utils/sorts';
 import { useCallback, useEffect, useState } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
 import {
@@ -19,10 +18,10 @@ const DRAG_TYPE = {
   COLUMN: 'column'
 };
 
-function BoardContent({ board, postNewColumn, postNewCard, moveColumn }) {
+function BoardContent({ board, postNewColumn, postNewCard, moveColumn, moveCardSameColumn }) {
   const [orderedColumns, setOrderedColumns] = useState([]);
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'));
+    setOrderedColumns(board?.columns);
   }, [board]);
 
   // Column click dragEnd catch and mobile issues
@@ -108,7 +107,7 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn }) {
     const { active, over } = event;
     if (!over || !active) return;
 
-    // Only run if is card change in the same column
+    // Handle drag card in the same column
     if (dragItemType === DRAG_TYPE.CARD && active.id !== over.id) {
       const columnId = active?.data?.current?.columnId;
       const activeItemId = active?.data?.current?._id;
@@ -116,6 +115,7 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn }) {
 
       const fromIndex = orderedColumns?.find(column => column?._id === columnId)?.cards?.findIndex(card => card?._id === activeItemId);
       const toIndex = orderedColumns?.find(column => column?._id === columnId)?.cards?.findIndex(card => card?._id === overItemId);
+
       const dndKitOrderedColumns = orderedColumns?.map(column => {
         if (column?._id !== columnId) return column;
         return {
@@ -125,6 +125,12 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn }) {
         };
       });
       setOrderedColumns(dndKitOrderedColumns);
+
+      // API: Update cardOrderIds in columnId
+      dndKitOrderedColumns.forEach(column => {
+        if (column?._id !== columnId) return column;
+        moveCardSameColumn(columnId, column.cardOrderIds);
+      });
     }
 
     if (dragItemType === DRAG_TYPE.COLUMN && active.id !== over.id) {
@@ -133,7 +139,7 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn }) {
       const dndKitOrderedColumns = arrayMove(orderedColumns, fromIndex, toIndex);
       setOrderedColumns(dndKitOrderedColumns);
 
-      // Update columnOrderIds in Board
+      // API: Update columnOrderIds in Board
       moveColumn(dndKitOrderedColumns.map(column => column._id));
     }
 
@@ -188,11 +194,9 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn }) {
         p: '20px 0',
         display: 'flex',
         overflowX: 'auto',
-        overflowY: 'hidden'
+        cursor: 'grab'
       }}>
-
         <Columns columns={orderedColumns} postNewColumn={postNewColumn} postNewCard={postNewCard}></Columns>
-
         {/* DragOverlay help fix dragging out flickering animation */}
         <DragOverlay dropAnimation={dropAnimation}>
           {dragItemId ? (dragItemType === DRAG_TYPE.COLUMN ? <Column column={dragItemData} /> : <Card card={dragItemData} />) : null}

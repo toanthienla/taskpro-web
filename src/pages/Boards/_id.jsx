@@ -3,24 +3,35 @@ import Container from '@mui/material/Container';
 import AppBar from '~/components/AppBar/AppBar';
 import BoardBar from './BoardBar/BoardBar';
 import BoardContent from './BoardContent/BoardContent';
-import { getBoardApi, postNewColumnApi, postNewCardApi, putBoardColumnOrderIdsAPI } from '~/apis';
+import { getBoardApi, postNewColumnApi, postNewCardApi, putBoardColumnOrderIdsAPI, putColumnCardOrderIdsAPI } from '~/apis';
 import { cloneDeep, isEmpty } from 'lodash';
 import { generatePlaceholderCard } from '~/utils/formatters';
+import { mapOrder } from '~/utils/sorts';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 function Board() {
   const [board, setBoard] = useState(null);
 
   useEffect(() => {
-    const boardId = '67545caa2a9008012e783f88';
+    const boardId = '675681d53d32c24d9305bd48';
     getBoardApi(boardId).then((board) => {
 
-      // Add placeholder card if column have empty cards array
-      const emptyColumn = board.columns.find(column => isEmpty(column?.cards));
-      if (emptyColumn) {
-        const placeholderCard = generatePlaceholderCard(emptyColumn);
-        emptyColumn.cardOrderIds.push(placeholderCard._id);
-        emptyColumn.cards.push(placeholderCard);
-      }
+      // Sort column by columnOrderIds
+      board.columns = mapOrder(board?.columns, board?.columnOrderIds, '_id');
+
+      board.columns.forEach(column => {
+        // Add placeholder card if column have empty cards array
+        if (isEmpty(column?.cards)) {
+          const placeholderCard = generatePlaceholderCard(column);
+          column.cardOrderIds.push(placeholderCard._id);
+          column.cards.push(placeholderCard);
+        } else {
+          // Sort card by cardOrderIds
+          column.cards = mapOrder(column?.cards, column?.cardOrderIds, '_id');
+        }
+      });
 
       setBoard(board);
     });
@@ -62,16 +73,31 @@ function Board() {
   };
 
   // Function call API when move column (Dndkit)
-  const moveColumn = async (dndKitOrderedColumns) => {
-    await putBoardColumnOrderIdsAPI(board._id, dndKitOrderedColumns);
+  const moveColumn = (dndKitOrderedColumns) => {
+    putBoardColumnOrderIdsAPI(board._id, dndKitOrderedColumns);
   };
+
+  // Function call API when move card in the same colum (Dndkit)
+  const moveCardSameColumn = (columnId, dndKitOrderedCards) => {
+    putColumnCardOrderIdsAPI(columnId, dndKitOrderedCards);
+  };
+
+  if (!board) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', gap: 2 }}>
+        <CircularProgress />
+        <Typography>Loading...</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Container disableGutters maxWidth='false' sx={{ height: '100vh' }} >
       <AppBar />
       <BoardBar board={board} />
       <BoardContent board={board}
-        postNewColumn={postNewColumn} postNewCard={postNewCard} moveColumn={moveColumn} />
+        postNewColumn={postNewColumn} postNewCard={postNewCard}
+        moveColumn={moveColumn} moveCardSameColumn={moveCardSameColumn} />
     </Container>
   );
 }

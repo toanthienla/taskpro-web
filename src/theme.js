@@ -52,7 +52,7 @@ const theme = extendTheme({
         {
           '*::-webkit-scrollbar': {
             width: '4px',
-            height: '5px'
+            height: '4px'
           },
           '*::-webkit-scrollbar-thumb': {
             backgroundColor: '#bdc3c7',

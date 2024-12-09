@@ -19,6 +19,10 @@ export const postNewColumnApi = async (column) => {
   return response.data;
 };
 
+export const putColumnCardOrderIdsAPI = async (columnId, dndKitOrderedCards) => {
+  await axios.put(`${API_ROOT}/v1/columns`, { columnId, cardOrderIds: dndKitOrderedCards });
+};
+
 // Card
 export const postNewCardApi = async (card) => {
   const response = await axios.post(`${API_ROOT}/v1/cards`, card);

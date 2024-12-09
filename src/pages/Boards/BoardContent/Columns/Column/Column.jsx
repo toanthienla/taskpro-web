@@ -17,12 +17,13 @@ import Button from '@mui/material/Button';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import Cards from './Cards/Cards';
 import CloseIcon from '@mui/icons-material/Close';
-import { mapOrder } from '~/utils/sorts';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 function Column({ column, postNewCard }) {
+  const orderedCards = column?.cards;
+
   // Menu list on header
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -81,7 +82,6 @@ function Column({ column, postNewCard }) {
     opacity: isDragging ? 0.5 : undefined
   };
 
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id');
   return (
     <div ref={setNodeRef} style={dndKitStyle} {...attributes}>
       < Box
