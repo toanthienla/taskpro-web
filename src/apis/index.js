@@ -8,7 +8,7 @@ export const getBoardApi = async (boarId) => {
   const response = await axios.get(`${API_ROOT}/v1/boards/${boarId}`);
   return response.data;
 };
-export const putBoardColumnOrderIdsAPI = async (boarId, dndKitOrderedColumns) => {
+export const putBoardColumnOrderIdsApi = async (boarId, dndKitOrderedColumns) => {
   await axios.put(`${API_ROOT}/v1/boards/${boarId}`, { columnOrderIds: dndKitOrderedColumns });
 };
 
@@ -18,13 +18,20 @@ export const postNewColumnApi = async (column) => {
   const response = await axios.post(`${API_ROOT}/v1/columns`, column);
   return response.data;
 };
-
-export const putColumnCardOrderIdsAPI = async (columnId, dndKitOrderedCards) => {
+export const putColumnCardOrderIdsApi = async (columnId, dndKitOrderedCards) => {
   await axios.put(`${API_ROOT}/v1/columns`, { columnId, cardOrderIds: dndKitOrderedCards });
 };
+export const deleteColumnCardOrderIdsApi = async (columnId, cardId) => {
+  // Delete RestAPI not have body
+  await axios.delete(`${API_ROOT}/v1/columns?columnId=${columnId}&cardId=${cardId}`);
+};
+
 
 // Card
 export const postNewCardApi = async (card) => {
   const response = await axios.post(`${API_ROOT}/v1/cards`, card);
   return response.data;
+};
+export const putCardColumnId = async (columnId, cardId) => {
+  await axios.put(`${API_ROOT}/v1/cards`, { columnId, cardId });
 };

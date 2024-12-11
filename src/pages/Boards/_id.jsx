@@ -3,7 +3,11 @@ import Container from '@mui/material/Container';
 import AppBar from '~/components/AppBar/AppBar';
 import BoardBar from './BoardBar/BoardBar';
 import BoardContent from './BoardContent/BoardContent';
-import { getBoardApi, postNewColumnApi, postNewCardApi, putBoardColumnOrderIdsAPI, putColumnCardOrderIdsAPI } from '~/apis';
+import {
+  getBoardApi, postNewColumnApi, postNewCardApi,
+  putBoardColumnOrderIdsApi, putColumnCardOrderIdsApi,
+  deleteColumnCardOrderIdsApi, putCardColumnId
+} from '~/apis';
 import { cloneDeep, isEmpty } from 'lodash';
 import { generatePlaceholderCard } from '~/utils/formatters';
 import { mapOrder } from '~/utils/sorts';
@@ -74,12 +78,23 @@ function Board() {
 
   // Function call API when move column (Dndkit)
   const moveColumn = (dndKitOrderedColumns) => {
-    putBoardColumnOrderIdsAPI(board._id, dndKitOrderedColumns);
+    putBoardColumnOrderIdsApi(board._id, dndKitOrderedColumns);
   };
 
   // Function call API when move card in the same colum (Dndkit)
   const moveCardSameColumn = (columnId, dndKitOrderedCards) => {
-    putColumnCardOrderIdsAPI(columnId, dndKitOrderedCards);
+    // Clean placeHolder card if exist
+    dndKitOrderedCards = dndKitOrderedCards.filter(cardId => cardId !== `${columnId}-placeholder-card`);
+    putColumnCardOrderIdsApi(columnId, dndKitOrderedCards);
+  };
+
+  // Function call API when move card to different column (Dndkit)
+  const moveCardDifferentColumn = (activeColumnId, overColumnId, cardId, dndKitOrderedCards) => {
+    deleteColumnCardOrderIdsApi(activeColumnId, cardId);
+    putCardColumnId(overColumnId, cardId);
+    if (dndKitOrderedCards) {
+      putColumnCardOrderIdsApi(overColumnId, dndKitOrderedCards);
+    }
   };
 
   if (!board) {
@@ -97,7 +112,8 @@ function Board() {
       <BoardBar board={board} />
       <BoardContent board={board}
         postNewColumn={postNewColumn} postNewCard={postNewCard}
-        moveColumn={moveColumn} moveCardSameColumn={moveCardSameColumn} />
+        moveColumn={moveColumn} moveCardSameColumn={moveCardSameColumn}
+        moveCardDifferentColumn={moveCardDifferentColumn} />
     </Container>
   );
 }

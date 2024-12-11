@@ -18,7 +18,7 @@ const DRAG_TYPE = {
   COLUMN: 'column'
 };
 
-function BoardContent({ board, postNewColumn, postNewCard, moveColumn, moveCardSameColumn }) {
+function BoardContent({ board, postNewColumn, postNewCard, moveColumn, moveCardSameColumn, moveCardDifferentColumn }) {
   const [orderedColumns, setOrderedColumns] = useState([]);
   useEffect(() => {
     setOrderedColumns(board?.columns);
@@ -43,10 +43,15 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn, moveCardS
   const [dragItemType, setDragItemType] = useState(null);
   const [dragItemData, setDragItemData] = useState(null);
 
+  // Use for call API when dragging card to new column
+  const [activeColumnId, setActiveColumnId] = useState(null);
+  const [overColumnId, setOverColumnId] = useState(null);
+
   const handleDragStart = (event) => {
     setDragItemId(event?.active?.id);
     setDragItemType(event?.active?.data?.current?.columnId ? DRAG_TYPE.CARD : DRAG_TYPE.COLUMN);
     setDragItemData(event?.active?.data?.current);
+    setActiveColumnId(event?.active?.data?.current?.columnId);
   };
 
   const handleDragOver = (event) => {
@@ -62,7 +67,11 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn, moveCardS
 
     if (!activeColumnId || !overColumnId) return;
 
+    // Handle dragging card to new column
     if (activeColumnId !== overColumnId) {
+
+      setOverColumnId(overColumnId);
+
       setOrderedColumns((prevOrderedColumns) => {
         const newOrderedColumns = cloneDeep(prevOrderedColumns);
         const newActiveColumn = newOrderedColumns?.find(column => column._id === activeColumnId);
@@ -107,6 +116,8 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn, moveCardS
     const { active, over } = event;
     if (!over || !active) return;
 
+    let isUpdatedCardOrderIds = false;
+
     // Handle drag card in the same column
     if (dragItemType === DRAG_TYPE.CARD && active.id !== over.id) {
       const columnId = active?.data?.current?.columnId;
@@ -131,8 +142,21 @@ function BoardContent({ board, postNewColumn, postNewCard, moveColumn, moveCardS
         if (column?._id !== columnId) return column;
         moveCardSameColumn(columnId, column.cardOrderIds);
       });
+      isUpdatedCardOrderIds = true;
     }
 
+    // API: handle drag card to different column
+    if (dragItemType === DRAG_TYPE.CARD && activeColumnId && overColumnId && activeColumnId !== overColumnId) {
+      if (isUpdatedCardOrderIds)
+        moveCardDifferentColumn(activeColumnId, overColumnId, dragItemId, null);
+      else {
+        moveCardDifferentColumn(activeColumnId, overColumnId, dragItemId,
+          orderedColumns.find(column => column._id === overColumnId).cardOrderIds
+        );
+      }
+    }
+
+    // Handle dragging column
     if (dragItemType === DRAG_TYPE.COLUMN && active.id !== over.id) {
       const fromIndex = orderedColumns.findIndex(c => c._id === active.id);
       const toIndex = orderedColumns.findIndex(c => c._id === over.id);
