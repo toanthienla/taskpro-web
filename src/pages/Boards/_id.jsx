@@ -71,8 +71,13 @@ function Board() {
     // Update card in column (don't need GET API make slower server)
     const newBoard = cloneDeep(board);
     const updatedColumn = newBoard.columns.find(column => column._id === card.columnId);
-    updatedColumn.cardOrderIds.push(newCard._id);
-    updatedColumn.cards.push(newCard);
+    if (updatedColumn.cards.some(card => card.FE_PlaceholderCard)) {
+      updatedColumn.cardOrderIds = [newCard._id];
+      updatedColumn.cards = [newCard];
+    } else {
+      updatedColumn.cardOrderIds.push(newCard._id);
+      updatedColumn.cards.push(newCard);
+    }
     setBoard(newBoard);
   };
 
@@ -83,8 +88,6 @@ function Board() {
 
   // Function call API when move card in the same colum (Dndkit)
   const moveCardSameColumn = (columnId, dndKitOrderedCards) => {
-    // Clean placeHolder card if exist
-    dndKitOrderedCards = dndKitOrderedCards.filter(cardId => cardId !== `${columnId}-placeholder-card`);
     putColumnCardOrderIdsApi(columnId, dndKitOrderedCards);
   };
 
@@ -110,7 +113,7 @@ function Board() {
     <Container disableGutters maxWidth='false' sx={{ height: '100vh' }} >
       <AppBar />
       <BoardBar board={board} />
-      <BoardContent board={board}
+      <BoardContent board={board} setBoard={setBoard}
         postNewColumn={postNewColumn} postNewCard={postNewCard}
         moveColumn={moveColumn} moveCardSameColumn={moveCardSameColumn}
         moveCardDifferentColumn={moveCardDifferentColumn} />

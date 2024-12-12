@@ -24,7 +24,7 @@ function Columns({ columns, postNewColumn, postNewCard }) {
       // AxiosAPI
       await postNewColumn({
         title: newColumnTitle
-      });
+      }, columns);
     } else {
       toast.error('Please enter a column title.', {
         position: 'bottom-right',
