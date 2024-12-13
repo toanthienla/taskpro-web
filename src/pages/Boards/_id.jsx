@@ -6,7 +6,7 @@ import BoardContent from './BoardContent/BoardContent';
 import {
   getBoardApi, postNewColumnApi, postNewCardApi,
   putBoardColumnOrderIdsApi, putColumnCardOrderIdsApi,
-  deleteColumnCardOrderIdsApi, putCardColumnId
+  deleteColumnCardOrderIdsApi, putCardColumnId, deleteColumnApi
 } from '~/apis';
 import { cloneDeep, isEmpty } from 'lodash';
 import { generatePlaceholderCard } from '~/utils/formatters';
@@ -100,6 +100,16 @@ function Board() {
     }
   };
 
+  //Function call API when remove column
+  const removeColumn = (columnId) => {
+    const newBoard = cloneDeep(board);
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== columnId);
+    newBoard.columns = newBoard.columns.filter(column => column._id !== columnId);
+    setBoard(newBoard);
+
+    deleteColumnApi(columnId);
+  };
+
   if (!board) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', gap: 2 }}>
@@ -116,7 +126,8 @@ function Board() {
       <BoardContent board={board} setBoard={setBoard}
         postNewColumn={postNewColumn} postNewCard={postNewCard}
         moveColumn={moveColumn} moveCardSameColumn={moveCardSameColumn}
-        moveCardDifferentColumn={moveCardDifferentColumn} />
+        moveCardDifferentColumn={moveCardDifferentColumn}
+        removeColumn={removeColumn} />
     </Container>
   );
 }

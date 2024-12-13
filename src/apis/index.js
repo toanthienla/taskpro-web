@@ -25,6 +25,13 @@ export const deleteColumnCardOrderIdsApi = async (columnId, cardId) => {
   // Delete RestAPI not have body
   await axios.delete(`${API_ROOT}/v1/columns?columnId=${columnId}&cardId=${cardId}`);
 };
+export const deleteColumnApi = async (columnId) => {
+  // Deletes a column and its associated data. This involves:
+  //  - Removing the column ID from the board's `columnOrderIds`.
+  //  - Deleting the column document.
+  //  - Deleting all cards belonging to the column.
+  await axios.delete(`${API_ROOT}/v1/columns/${columnId}`);
+};
 
 
 // Card

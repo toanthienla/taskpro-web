@@ -5,9 +5,6 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ContentCut from '@mui/icons-material/ContentCut';
-import ContentCopy from '@mui/icons-material/ContentCopy';
-import ContentPaste from '@mui/icons-material/ContentPaste';
 import Divider from '@mui/material/Divider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddCardIcon from '@mui/icons-material/AddCard';
@@ -20,8 +17,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useConfirm } from 'material-ui-confirm';
 
-function Column({ column, postNewCard }) {
+function Column({ column, postNewCard, removeColumn }) {
   const orderedCards = column?.cards;
 
   // Menu list on header
@@ -82,8 +80,24 @@ function Column({ column, postNewCard }) {
     opacity: isDragging ? 0.5 : undefined
   };
 
+  // Handle cofirm when click remove column
+  const confirmRemoveColumn = useConfirm();
+  const handleRemoveColumn = () => {
+    confirmRemoveColumn({
+      title: `Remove ${column?.title}?`,
+      description: 'Are you sure you want to remove this column? All cards within this column will also be deleted.',
+      confirmationText: 'Confirm',
+      dialogProps: { maxWidth: 'xs' },
+      confirmationButtonProps: { color: 'error' }
+    })
+      .then(() => {
+        removeColumn(column?._id);
+      })
+      .catch(() => { });
+  };
+
   return (
-    <div ref={setNodeRef} style={dndKitStyle} {...attributes}>
+    <div ref={setNodeRef} style={{ ...dndKitStyle, outline: 'none' }} {...attributes}>
       < Box
         {...listeners}
         sx={{
@@ -125,29 +139,13 @@ function Column({ column, postNewCard }) {
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
+            onClick={handleClose}
             MenuListProps={{
               'aria-labelledby': 'basic-column-dropdown'
             }}
+            TransitionProps={{ timeout: 150 }}
           >
-            <MenuItem>
-              <ListItemIcon>
-                <ContentCut fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Cut</ListItemText>
-            </MenuItem>
-            <MenuItem>
-              <ListItemIcon>
-                <ContentCopy fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Copy</ListItemText>
-            </MenuItem>
-            <MenuItem>
-              <ListItemIcon>
-                <ContentPaste fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Paste</ListItemText>
-            </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={toggleOpenAddNewCardForm}>
               <ListItemIcon>
                 <AddCardIcon fontSize="small" />
               </ListItemIcon>
@@ -160,7 +158,7 @@ function Column({ column, postNewCard }) {
               </ListItemIcon>
               <ListItemText>Archive column</ListItemText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={handleRemoveColumn}>
               <ListItemIcon>
                 <DeleteOutlineIcon fontSize="small" />
               </ListItemIcon>

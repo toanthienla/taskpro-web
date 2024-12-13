@@ -9,7 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { toast, Bounce } from 'react-toastify';
 import { useTheme } from '@mui/material/styles';
 
-function Columns({ columns, postNewColumn, postNewCard }) {
+function Columns({ columns, postNewColumn, postNewCard, removeColumn }) {
   const theme = useTheme();
 
   // Add new column
@@ -62,7 +62,7 @@ function Columns({ columns, postNewColumn, postNewCard }) {
 
       {/* List columns */}
       <SortableContext items={columns?.map((c) => c._id)} strategy={horizontalListSortingStrategy}>
-        {columns?.map((column) => <Column key={column._id} column={column} postNewCard={postNewCard} />)}
+        {columns?.map((column) => <Column key={column._id} column={column} postNewCard={postNewCard} removeColumn={removeColumn} />)}
       </SortableContext>
 
       {/* Add another column button */}

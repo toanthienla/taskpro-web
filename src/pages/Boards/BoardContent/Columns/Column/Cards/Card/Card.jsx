@@ -32,8 +32,8 @@ function Card({ card }) {
       sx={{
         cursor: 'pointer', overflow: 'unset',
         display: card?.FE_PlaceholderCard ? 'none' : 'block',
-        border: '1px solid transparent',
-        '&:hover': { borderColor: (theme) => alpha(theme.palette.primary.light, 0.5) }
+        border: '2px solid transparent',
+        '&:hover': { borderColor: (theme) => alpha(theme.palette.primary.light, 0.2) }
       }}>
       {card?.cover &&
         <CardMedia

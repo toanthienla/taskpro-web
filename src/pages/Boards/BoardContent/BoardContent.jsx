@@ -18,7 +18,7 @@ const DRAG_TYPE = {
   COLUMN: 'column'
 };
 
-function BoardContent({ board, setBoard, postNewColumn, postNewCard, moveColumn, moveCardSameColumn, moveCardDifferentColumn }) {
+function BoardContent({ board, setBoard, postNewColumn, postNewCard, moveColumn, moveCardSameColumn, moveCardDifferentColumn, removeColumn }) {
   // Clone orderedColumns to deal with setBoard problem when call API (setBoard hep save the newest board when dragging and create new column/card)
   const [orderedColumns, setOrderedColumns] = useState([]);
   useEffect(() => {
@@ -233,7 +233,7 @@ function BoardContent({ board, setBoard, postNewColumn, postNewCard, moveColumn,
         display: 'flex',
         overflowX: 'auto'
       }}>
-        <Columns columns={orderedColumns} postNewColumn={postNewColumn} postNewCard={postNewCard}></Columns>
+        <Columns columns={orderedColumns} postNewColumn={postNewColumn} postNewCard={postNewCard} removeColumn={removeColumn}></Columns>
         {/* DragOverlay help fix dragging out flickering animation */}
         <DragOverlay dropAnimation={dropAnimation}>
           {dragItemId ? (dragItemType === DRAG_TYPE.COLUMN ? <Column column={dragItemData} /> : <Card card={dragItemData} />) : null}
