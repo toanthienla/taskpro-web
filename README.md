@@ -41,7 +41,3 @@
 ## Contributing
 
 Contributions are welcome! Feel free to submit issues and pull requests.
-
-## License
-
-[Specify your project's license here, e.g., MIT License]
