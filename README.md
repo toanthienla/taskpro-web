@@ -1,39 +1,49 @@
-# TaskPro
+# TaskPro-Web
 
-**TaskPro** is a web application inspired by [Trello](https://trello.com), designed to streamline team collaboration and daily task management. Its goal is to simplify task organization while enhancing productivity for both teams and individuals.
+## Overview
 
-## Features
+[TaskPro](taskpro-web.vercel.app) - a Kanban-style task management application inspired by [Trello](trello.com). This repository hosts the frontend code.
 
--   **Boards, Columns, and Cards**: Organize tasks into customizable boards, columns, and cards.
--   **Drag-and-Drop**: Rearrange columns and cards effortlessly with a smooth drag-and-drop interface.
+<div align="center">
+  <img src="demo/kaban_board.png" alt="Kaban Board" width="600"/> 
+</div>
 
-## System Design
+## Key Features
 
-TaskPro is built using modern web development tools and technologies:
+-   **Visual Task Organization:** Manage tasks effortlessly with customizable boards, columns, and cards.
+-   **Intuitive Drag-and-Drop:** Rearrange tasks seamlessly with a smooth drag-and-drop interface.
 
-### **Frontend**
+## Tech Stack
 
--   **React (v18.x)**: The core library for building user interfaces.
--   **Vite**: A lightning-fast development environment.
--   **Material-UI (MUI v5.x)**: A powerful component library UI design.
--   **DNDKit (Core v6.1.0, Sortable v7.x)**: Handles drag-and-drop interactions.
--   **Material-UI Popup State (v5.x)**: Enhanced pop-ups improve user experiences.
--   **Vite Plugin SVGR (v3.x)**: Facilitates SVG file integration into React components.
+-   **React (v18.x)**: Provides a dynamic and responsive user experience.
+-   **Material-UI (MUI v5.x)**: Ensures a polished and professional user interface.
+-   **DNDKit**: Powers the intuitive drag-and-drop functionality.
+-   **Axios**: Facilitates smooth communication with the backend API.
 
-### **Development Tools**
+## Development
 
--   **ESLint (v8.x)**: Enforces consistent and error-free coding practices.
+-   **Vite**: Enables a fast and efficient development environment.
+-   **ESLint**: Maintains clean and consistent code.
 
-### **Folder Structure**
+### Project Structure
 
-The src folder follows a well-organized and modular structure:
--   **`apis`**: Contains mock data for testing at the frontend.
--   **`assets`**: Stores static files like images, SVGs, and other media resources.
--   **`components`**: Reusable UI components such as headers, footers, etc.
--   **`pages`**: Contains major components like the Board and Authentication pages.
--   **`redux`**: Includes Redux-related state management files.
--   **`utils`**: Provides utility functions and reusable variables for simplifying logic across components.
+-   **`~/apis`**: Handles mock data for testing and backend API interaction.
+-   **`~/assets`**: Stores static assets like images and SVGs.
+-   **`~/components`**: Houses reusable UI components.
+-   **`~/pages`**: Contains major application components (e.g., Board, Authentication).
+-   **`~/redux`**: Manages application state with Redux.
+-   **`~/utils`**: Provides utility functions and shared variables.
 
-## Prerequisites
+## Getting Started
 
--   **Node.js (>= v18.x)**: Ensure node is running this version.
+1.  Clone the repository: `git clone https://github.com/toanthienla/taskpro-web.git`
+2.  Install dependencies: `npm install`
+3.  Start the development server: `npm run dev`
+
+## Contributing
+
+Contributions are welcome! Feel free to submit issues and pull requests.
+
+## License
+
+[Specify your project's license here, e.g., MIT License]
