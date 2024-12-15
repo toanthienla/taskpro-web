@@ -34,9 +34,10 @@
 
 ## Getting Started
 
-1.  Clone the repository: `git clone https://github.com/toanthienla/taskpro-web.git`
-2.  Install dependencies: `npm install`
-3.  Start the development server: `npm run dev`
+1.  **Node.js:** Ensure you have Node.js version 18.x or higher installed.
+2.  Clone the repository: `git clone https://github.com/toanthienla/taskpro-web.git`
+3.  Install dependencies: `npm install`
+4.  Start the development server: `npm run dev`
 
 ## Contributing
 
