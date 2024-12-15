@@ -1,12 +1,12 @@
 # TaskPro-Web
 
-## Overview
-
-[TaskPro](taskpro-web.vercel.app) - a Kanban-style task management application inspired by [Trello](trello.com). This repository hosts the frontend code.
-
 <div align="center">
-  <img src="demo/kaban_board.png" alt="Kaban Board" width="600"/> 
+  <img src="public/taskpro-video-1.gif" alt="TaskPro Demo" width="600"/> 
 </div>
+
+## Introduction
+
+TaskPro is a Kanban-style task management application inspired by Trello. This repository houses the frontend code.
 
 ## Key Features
 
