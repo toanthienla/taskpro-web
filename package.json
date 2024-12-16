@@ -20,11 +20,13 @@
         "@emotion/styled": "^11.13.0",
         "@mui/icons-material": "^5.16.7",
         "@mui/material": "^5.16.7",
+        "@reduxjs/toolkit": "^2.5.0",
         "axios": "^1.7.9",
         "lodash": "^4.17.21",
         "material-ui-confirm": "^3.0.16",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-redux": "^9.2.0",
         "react-toastify": "^10.0.6",
         "taskpro-web": "file:"
     },
