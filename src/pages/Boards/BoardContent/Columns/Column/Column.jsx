@@ -18,9 +18,16 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useConfirm } from 'material-ui-confirm';
+import { postNewCardApi } from '~/apis';
+import { cloneDeep } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentActiveBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice';
+import { deleteColumnApi } from '~/apis';
 
-function Column({ column, postNewCard, removeColumn }) {
+function Column({ column }) {
   const orderedCards = column?.cards;
+  const board = useSelector(selectCurrentActiveBoard);
+  const dispatch = useDispatch();
 
   // Menu list on header
   const [anchorEl, setAnchorEl] = useState(null);
@@ -39,12 +46,27 @@ function Column({ column, postNewCard, removeColumn }) {
   const handleAddCardClick = async () => {
     if (newCardTitle) {
       setNewCardTitle('');
-      await postNewCard({
+      toggleOpenAddNewCardForm();
+
+      const newCard = await postNewCardApi({
         title: newCardTitle,
-        columnId: column._id
+        columnId: column._id,
+        boardId: board._id
       });
+
+      // Update card in column (don't need GET API make slower server)
+      const newBoard = cloneDeep(board);
+      const updatedColumn = newBoard.columns.find(column => column._id === newCard.columnId);
+      if (updatedColumn.cards.some(card => card.FE_PlaceholderCard)) {
+        updatedColumn.cardOrderIds = [newCard._id];
+        updatedColumn.cards = [newCard];
+      } else {
+        updatedColumn.cardOrderIds.push(newCard._id);
+        updatedColumn.cards.push(newCard);
+      }
+
+      dispatch(updateCurrentActiveBoard(newBoard));
     }
-    toggleOpenAddNewCardForm();
   };
 
   // Handle openAddNewColumnForm true when user click outside will false
@@ -91,7 +113,12 @@ function Column({ column, postNewCard, removeColumn }) {
       confirmationButtonProps: { color: 'error' }
     })
       .then(() => {
-        removeColumn(column?._id);
+        const newBoard = cloneDeep(board);
+        newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== column._id);
+        newBoard.columns = newBoard.columns.filter(col => col._id !== column._id);
+        dispatch(updateCurrentActiveBoard(newBoard));
+
+        deleteColumnApi(column._id);
       })
       .catch(() => { });
   };

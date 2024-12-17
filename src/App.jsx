@@ -1,12 +1,20 @@
 import Board from './pages/Boards/_id';
-import { ConfirmProvider } from 'material-ui-confirm';
+import NotFound from '~/components/404/NotFound';
+import { Routes, Route, Navigate } from 'react-router';
 
 function App() {
 
   return (
-    <ConfirmProvider>
-      <Board></Board>
-    </ConfirmProvider>
+    <Routes>
+
+      <Route path='/' element={
+        <Navigate to='/boards/675681d53d32c24d9305bd48' replace={true} />
+      } />
+      <Route path='/boards/:boardId' element={<Board />} />
+
+      <Route path='*' element={<NotFound />} />
+
+    </Routes>
   );
 }
 

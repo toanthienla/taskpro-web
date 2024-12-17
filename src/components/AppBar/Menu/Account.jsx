@@ -32,7 +32,7 @@ function Account() {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: '36px', height: '36px' }} alt="hamster" src="hamster.jpg" />
+          <Avatar sx={{ width: '36px', height: '36px' }} alt="hamster" src='/hamster.jpg' />
         </IconButton>
       </Tooltip>
       <Menu
