@@ -209,6 +209,7 @@ function Column({ column }) {
           {openAddNewCardForm ? (
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Button
+                className='interceptor-loading'
                 variant="contained"
                 size="small"
                 color="info"

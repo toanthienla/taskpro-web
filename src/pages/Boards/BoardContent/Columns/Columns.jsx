@@ -6,8 +6,7 @@ import Button from '@mui/material/Button';
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable';
 import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
-import { toast, Bounce } from 'react-toastify';
-import { useTheme } from '@mui/material/styles';
+import { toast } from 'react-toastify';
 import { postNewColumnApi } from '~/apis';
 import { generatePlaceholderCard } from '~/utils/formatters';
 import { cloneDeep } from 'lodash';
@@ -17,7 +16,6 @@ import { useDispatch, useSelector } from 'react-redux';
 function Columns({ columns }) {
   const board = useSelector(selectCurrentActiveBoard);
   const dispatch = useDispatch();
-  const theme = useTheme();
 
   // Add new column
   const [newColumnTitle, setNewColumnTitle] = useState('');
@@ -45,19 +43,9 @@ function Columns({ columns }) {
       newBoard.columns.push(newColumn);
 
       dispatch(updateCurrentActiveBoard(newBoard));
-
+      toast.success('Column created.');
     } else {
-      toast.error('Please enter a column title.', {
-        position: 'bottom-right',
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: theme.palette.mode,
-        transition: Bounce
-      });
+      toast.error('Column title required.');
     }
   };
 
@@ -100,7 +88,7 @@ function Columns({ columns }) {
             p: 1
           }}
         >
-          <TextField placeholder="Enter column title..." autoFocus size='small' type='text' variant="outlined"
+          <TextField autoComplete='off' placeholder="Enter column title..." autoFocus size='small' type='text' variant="outlined"
             value={newColumnTitle} onChange={(e) => setNewColumnTitle(e.target.value)}
             sx={{
               width: '100%',
@@ -116,7 +104,7 @@ function Columns({ columns }) {
             }}
           />
           <Box sx={{ display: 'flex', alignItems: 'center', marginTop: 1 }}>
-            <Button variant="contained" size='small' color='info'
+            <Button className='interceptor-loading' variant="contained" size='small' color='info'
               onClick={addNewColumn}
               sx={{
                 marginRight: 1
