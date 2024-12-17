@@ -1,6 +1,6 @@
 import Board from './pages/Boards/_id';
 import NotFound from '~/components/404/NotFound';
-import { Routes, Route, Navigate } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Auth from '~/pages/Auth/Auth';
 
 function App() {

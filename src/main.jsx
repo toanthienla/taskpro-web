@@ -7,7 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import { store } from '~/redux/store.js';
-import { BrowserRouter } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { ConfirmProvider } from 'material-ui-confirm';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
