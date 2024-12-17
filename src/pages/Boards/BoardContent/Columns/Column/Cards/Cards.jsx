@@ -36,7 +36,7 @@ function Cards({ cards, openAddNewCardForm, newCardTitle, setNewCardTitle }) {
             borderColor: '#3498db'
           }}>
           <CardContent sx={{ p: 0, '&:last-child': { p: 0 } }}>
-            <TextField placeholder="Enter a title..." autoFocus size='small' type='text' id='newTitleTextField'
+            <TextField autoComplete='off' placeholder="Enter a title..." autoFocus size='small' type='text' id='newTitleTextField'
               value={newCardTitle} onChange={handleOnChangeNewCardTitle} data-no-dnd
               sx={{
                 width: '100%',
