@@ -11,7 +11,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ConfirmProvider } from 'material-ui-confirm';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
+  <BrowserRouter basename='/'>
     <Provider store={store}>
       <CssVarsProvider theme={theme}>
         <ConfirmProvider>
