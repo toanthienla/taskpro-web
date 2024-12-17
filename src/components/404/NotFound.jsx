@@ -10,7 +10,7 @@ function NotFound() {
     <Box sx={{
       width: '100vw',
       height: '100vh',
-      bgcolor: '#E9F5FE',
+      bgcolor: 'background.default',
       color: 'black',
       display: 'flex',
       flexDirection: 'column',
@@ -18,7 +18,7 @@ function NotFound() {
       justifyContent: 'center',
       gap: 5
     }}>
-      <Typography variant="h1" sx={{ fontSize: '3rem', fontWeight: 800 }}>Oops!</Typography>
+      <Typography variant="h1" sx={{ fontSize: '2.8rem', fontWeight: 800, color: 'text.primary' }}>Oops!</Typography>
 
       <Box sx={{
         width: '55%',
@@ -38,7 +38,7 @@ function NotFound() {
             alignItems: 'center',
             fontSize: '1.25rem'
           }}
-        >Go Home</Button>
+        >TaskPro </Button>
       </Link>
     </Box>
   );

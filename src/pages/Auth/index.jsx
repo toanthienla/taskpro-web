@@ -1,1 +1,0 @@
-// Authentication - SignIn or SignUp
