@@ -25,6 +25,19 @@ export const activeBoardSlice = createSlice({
     updateCurrentActiveBoard: (state, action) => {
       let board = action.payload;
 
+      // Perform logic here
+      // ...
+
+      state.currentActiveBoard = board;
+    }
+  },
+  // Handle async data
+  extraReducers: (builder) => {
+    builder.addCase(getBoardApi.fulfilled, (state, action) => {
+      // fulfilled is when promise is success
+      // action.payload is return reponse data
+      const board = action.payload;
+
       // Sort column by columnOrderIds
       board.columns = mapOrder(board?.columns, board?.columnOrderIds, '_id');
 
@@ -39,19 +52,6 @@ export const activeBoardSlice = createSlice({
           column.cards = mapOrder(column?.cards, column?.cardOrderIds, '_id');
         }
       });
-
-      state.currentActiveBoard = board;
-    }
-  },
-  // Handle async data
-  extraReducers: (builder) => {
-    builder.addCase(getBoardApi.fulfilled, (state, action) => {
-      // fulfilled is when promise is success
-      // action.payload is return reponse data
-      const board = action.payload;
-
-      // Perform logic if need
-      // ...
 
       state.currentActiveBoard = board;
     });

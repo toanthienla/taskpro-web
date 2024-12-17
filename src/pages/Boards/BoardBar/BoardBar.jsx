@@ -61,7 +61,7 @@ function BoardBar({ board }) {
             height: '34px'
           }
         }}>
-          <Avatar alt="ToanLa" src="hamster.jpg" />
+          <Avatar alt="ToanLa" src="/hamster.jpg" />
           <Avatar alt="ToanLa" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_5LwQ3_Ik8lai147xZGje_6CcRjixf90QWQ&s" />
           <Avatar alt="ToanLa" src="https://file.aiquickdraw.com/imgcompressed/img/compressed_c9741e1459a08fc6af8a48e2a8a2c844.webp" />
           <Avatar alt="ToanLa" src="hamster.jpg" />

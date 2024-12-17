@@ -7,13 +7,19 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import { store } from '~/redux/store.js';
+import { BrowserRouter } from 'react-router';
+import { ConfirmProvider } from 'material-ui-confirm';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <Provider store={store}>
-    <CssVarsProvider theme={theme}>
-      <CssBaseline />
-      <App />
-      <ToastContainer pauseOnFocusLoss={false} newestOnTop />
-    </CssVarsProvider>
-  </Provider>
+  <BrowserRouter>
+    <Provider store={store}>
+      <CssVarsProvider theme={theme}>
+        <ConfirmProvider>
+          <CssBaseline />
+          <App />
+          <ToastContainer pauseOnFocusLoss={false} newestOnTop />
+        </ConfirmProvider>
+      </CssVarsProvider>
+    </Provider>
+  </BrowserRouter>
 );

@@ -8,8 +8,15 @@ import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast, Bounce } from 'react-toastify';
 import { useTheme } from '@mui/material/styles';
+import { postNewColumnApi } from '~/apis';
+import { generatePlaceholderCard } from '~/utils/formatters';
+import { cloneDeep } from 'lodash';
+import { updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
-function Columns({ columns, postNewColumn, postNewCard, removeColumn }) {
+function Columns({ columns }) {
+  const board = useSelector(selectCurrentActiveBoard);
+  const dispatch = useDispatch();
   const theme = useTheme();
 
   // Add new column
@@ -21,10 +28,24 @@ function Columns({ columns, postNewColumn, postNewCard, removeColumn }) {
       setNewColumnTitle('');
       setOpenAddNewColumnForm(false);
 
-      // AxiosAPI
-      await postNewColumn({
-        title: newColumnTitle
-      }, columns);
+      // Call API
+      const newColumn = await postNewColumnApi({
+        title: newColumnTitle,
+        boardId: board._id
+      });
+
+      // Add placeholder card for new column
+      const placeholderCard = generatePlaceholderCard(newColumn);
+      newColumn.cardOrderIds.push(placeholderCard._id);
+      newColumn.cards.push(placeholderCard);
+
+      // Update column in board (don't need GET API make slower server)
+      const newBoard = cloneDeep(board);
+      newBoard.columnOrderIds.push(newColumn._id);
+      newBoard.columns.push(newColumn);
+
+      dispatch(updateCurrentActiveBoard(newBoard));
+
     } else {
       toast.error('Please enter a column title.', {
         position: 'bottom-right',
@@ -62,7 +83,7 @@ function Columns({ columns, postNewColumn, postNewCard, removeColumn }) {
 
       {/* List columns */}
       <SortableContext items={columns?.map((c) => c._id)} strategy={horizontalListSortingStrategy}>
-        {columns?.map((column) => <Column key={column._id} column={column} postNewCard={postNewCard} removeColumn={removeColumn} />)}
+        {columns?.map((column) => <Column key={column._id} column={column} />)}
       </SortableContext>
 
       {/* Add another column button */}

@@ -4,10 +4,10 @@ import { API_ROOT } from '~/utils/constants';
 // Catch error Interceptor after done basic
 
 // Board
-export const getBoardApi = async (boarId) => {
-  const response = await axios.get(`${API_ROOT}/v1/boards/${boarId}`);
-  return response.data;
-};
+// export const getBoardApi = async (boarId) => {
+//   const response = await axios.get(`${API_ROOT}/v1/boards/${boarId}`);
+//   return response.data;
+// };
 export const putBoardColumnOrderIdsApi = async (boarId, dndKitOrderedColumns) => {
   await axios.put(`${API_ROOT}/v1/boards/${boarId}`, { columnOrderIds: dndKitOrderedColumns });
 };
