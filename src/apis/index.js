@@ -4,10 +4,6 @@ import { API_ROOT } from '~/utils/constants';
 // Catch error Interceptor after done basic
 
 // Board
-// export const getBoardApi = async (boarId) => {
-//   const response = await axios.get(`${API_ROOT}/v1/boards/${boarId}`);
-//   return response.data;
-// };
 export const putBoardColumnOrderIdsApi = async (boarId, dndKitOrderedColumns) => {
   await authAxiosInstance.put(`${API_ROOT}/v1/boards/${boarId}`, { columnOrderIds: dndKitOrderedColumns });
 };
@@ -39,6 +35,16 @@ export const postNewCardApi = async (card) => {
   const response = await authAxiosInstance.post(`${API_ROOT}/v1/cards`, card);
   return response.data;
 };
-export const putCardColumnId = async (columnId, cardId) => {
+export const putCardColumnIdApi = async (columnId, cardId) => {
   await authAxiosInstance.put(`${API_ROOT}/v1/cards`, { columnId, cardId });
+};
+
+// User
+export const postNewUserApi = async (email, password) => {
+  const response = await authAxiosInstance.post(`${API_ROOT}/v1/users/register`, { email, password });
+  return response.data;
+};
+export const validateUserApi = async (email, token) => {
+  const response = await authAxiosInstance.put(`${API_ROOT}/v1/users/validation`, { email, token });
+  return response.data;
 };
