@@ -11,7 +11,7 @@ const initialState = {
 
 // Async function when call API
 export const getBoardApi = createAsyncThunk(
-  'activeBoardSlice/getBoardApi',
+  'activeBoard/getBoardApi',
   async (boardId) => {
     const response = await authAxiosInstance.get(`${API_ROOT}/v1/boards/${boardId}`);
     return response.data;

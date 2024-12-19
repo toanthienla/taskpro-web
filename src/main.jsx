@@ -28,7 +28,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             pauseOnFocusLoss={false}
             draggable
             pauseOnHover={false}
-            theme={'colored'}
+            theme={'light'}
             transition={Bounce} />
         </ConfirmProvider>
       </CssVarsProvider>

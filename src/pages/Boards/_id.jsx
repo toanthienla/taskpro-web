@@ -3,13 +3,11 @@ import Container from '@mui/material/Container';
 import AppBar from '~/components/AppBar/AppBar';
 import BoardBar from './BoardBar/BoardBar';
 import BoardContent from './BoardContent/BoardContent';
-import { putBoardColumnOrderIdsApi, putColumnCardOrderIdsApi, deleteColumnCardOrderIdsApi, putCardColumnId } from '~/apis';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { putBoardColumnOrderIdsApi, putColumnCardOrderIdsApi, deleteColumnCardOrderIdsApi, putCardColumnIdApi } from '~/apis';
 import { getBoardApi, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import LoadingPage from '~/components/Loading/LoadingPage';
 
 function Board() {
   const board = useSelector(selectCurrentActiveBoard);
@@ -50,7 +48,7 @@ function Board() {
     }
 
     deleteColumnCardOrderIdsApi(activeColumnId, cardId);
-    putCardColumnId(overColumnId, cardId);
+    putCardColumnIdApi(overColumnId, cardId);
     if (cardOrderIds) {
       putColumnCardOrderIdsApi(overColumnId, cardOrderIds);
     }
@@ -58,12 +56,7 @@ function Board() {
 
 
   if (!board) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column', gap: 2 }}>
-        <CircularProgress />
-        <Typography>Loading...</Typography>
-      </Box>
-    );
+    return <LoadingPage content={'Loading your TaskPro board...'} />;
   }
 
   return (

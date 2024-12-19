@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -15,14 +15,24 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useForm } from 'react-hook-form';
 import { EMAIL_RULE, EMAIL_RULE_MESSAGE, FIELD_REQUIRED_MESSAGE, PASSWORD_CONFIRMATION_MESSAGE, PASSWORD_RULE, PASSWORD_RULE_MESSAGE } from '~/utils/validators';
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert';
+import { postNewUserApi } from '~/apis';
+import { toast } from 'react-toastify';
 
 function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const submitRegister = (data) => {
-    console.log(data);
+
+  const navigate = useNavigate();
+  const submitRegister = async ({ email, password }) => {
+    await toast.promise(
+      postNewUserApi(email, password),
+      {
+        pending: 'Loading your information...'
+      }
+    );
+    navigate(`/login?registeredEmail=${email}`);
   };
 
   return (
