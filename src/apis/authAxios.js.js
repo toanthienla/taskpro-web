@@ -4,6 +4,8 @@ import { interceptorLoadingElements } from '~/utils/formatters';
 
 let authAxiosInstance = axios.create();
 authAxiosInstance.defaults.timeout = 1000 * 60 * 10;
+
+// Accept brower auto send cookies to API
 authAxiosInstance.defaults.withCredentials = true;
 
 // Add a request interceptor

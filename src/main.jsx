@@ -9,29 +9,35 @@ import { Provider } from 'react-redux';
 import { store } from '~/redux/store.js';
 import { BrowserRouter } from 'react-router-dom';
 import { ConfirmProvider } from 'material-ui-confirm';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+
+let persistor = persistStore(store);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter basename='/'>
     <Provider store={store}>
-      <CssVarsProvider theme={theme}>
-        <ConfirmProvider>
-          <CssBaseline />
-          <App />
-          <ToastContainer
-            position="bottom-right"
-            autoClose={5000}
-            limit={3}
-            hideProgressBar={false}
-            newestOnTop
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss={false}
-            draggable
-            pauseOnHover={false}
-            theme={'light'}
-            transition={Bounce} />
-        </ConfirmProvider>
-      </CssVarsProvider>
+      <PersistGate persistor={persistor}>
+        <CssVarsProvider theme={theme}>
+          <ConfirmProvider>
+            <CssBaseline />
+            <App />
+            <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              limit={3}
+              hideProgressBar={false}
+              newestOnTop
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss={false}
+              draggable
+              pauseOnHover={false}
+              theme={'light'}
+              transition={Bounce} />
+          </ConfirmProvider>
+        </CssVarsProvider>
+      </PersistGate>
     </Provider>
   </BrowserRouter>
 );
