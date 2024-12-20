@@ -30,6 +30,7 @@
         "react-redux": "^9.2.0",
         "react-router-dom": "^7.0.2",
         "react-toastify": "^10.0.6",
+        "redux-persist": "^6.0.0",
         "taskpro-web": "file:"
     },
     "devDependencies": {
