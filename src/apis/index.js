@@ -48,3 +48,7 @@ export const validateUserApi = async (email, token) => {
   const response = await authAxiosInstance.put(`${API_ROOT}/v1/users/validation`, { email, token });
   return response.data;
 };
+export const refreshTokenApi = async () => {
+  const response = await authAxiosInstance.get(`${API_ROOT}/v1/users/refresh_token`);
+  return response.data;
+};
