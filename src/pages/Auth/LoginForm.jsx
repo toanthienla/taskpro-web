@@ -17,11 +17,16 @@ import { useForm } from 'react-hook-form';
 import { EMAIL_RULE, EMAIL_RULE_MESSAGE, FIELD_REQUIRED_MESSAGE, PASSWORD_RULE, PASSWORD_RULE_MESSAGE } from '~/utils/validators';
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert';
 import { useSearchParams } from 'react-router-dom';
-import { loginUserApi, selectCurrentUser } from '~/redux/user/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { loginUserApi } from '~/redux/user/userSlice';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,10 +34,6 @@ function LoginForm() {
   const registeredEmail = searchParams.get('registeredEmail');
   const verifiedEmail = searchParams.get('verifiedEmail');
 
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-
-  const { register, handleSubmit, formState: { errors } } = useForm();
   const submitLogIn = async ({ email, password }) => {
     const res = await toast.promise(
       dispatch(loginUserApi({ email, password })),

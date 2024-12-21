@@ -12,6 +12,10 @@ import { ConfirmProvider } from 'material-ui-confirm';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
+// Inject store to use store outside component
+import { injectStore } from './apis/authAxios.js';
+injectStore(store);
+
 let persistor = persistStore(store);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

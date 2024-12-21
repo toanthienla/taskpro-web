@@ -6,11 +6,18 @@ const initialState = {
   currentUser: null
 };
 
-// Async function when call API
 export const loginUserApi = createAsyncThunk(
   'user/loginUserApi',
   async (data) => {
     const response = await authAxiosInstance.post(`${API_ROOT}/v1/users/login`, data);
+    return response.data;
+  }
+);
+
+export const logoutUserApi = createAsyncThunk(
+  'user/logoutUserApi',
+  async () => {
+    const response = await authAxiosInstance.delete(`${API_ROOT}/v1/users/logout`);
     return response.data;
   }
 );
@@ -26,6 +33,10 @@ export const userSlice = createSlice({
       // action.payload is return reponse data
       const user = action.payload;
       state.currentUser = user;
+    });
+    builder.addCase(logoutUserApi.fulfilled, (state) => {
+      // ProtectedRoute will shoot it to login page
+      state.currentUser = null;
     });
   }
 });

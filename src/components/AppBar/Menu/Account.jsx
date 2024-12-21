@@ -10,6 +10,9 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCurrentUser, logoutUserApi } from '~/redux/user/userSlice';
+import { useConfirm } from 'material-ui-confirm';
 
 function Account() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -19,6 +22,22 @@ function Account() {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const dispatch = useDispatch();
+  const user = useSelector(selectCurrentUser);
+
+  const confirmLogout = useConfirm();
+  const handleLogout = () => {
+    confirmLogout({
+      title: 'Log Out',
+      description: 'Are you sure you want to log out?',
+      confirmationText: 'Confirm',
+      dialogProps: { maxWidth: 'xs' },
+      confirmationButtonProps: { color: 'error' }
+    }).then(() => {
+      dispatch(logoutUserApi());
+    }).catch(() => { });
   };
 
   return (
@@ -32,7 +51,7 @@ function Account() {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: '36px', height: '36px' }} alt="hamster" src='/hamster.jpg' />
+          <Avatar sx={{ width: '36px', height: '36px' }} alt="user-avatar" src={user?.avatar} />
         </IconButton>
       </Tooltip>
       <Menu
@@ -40,15 +59,13 @@ function Account() {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        onClick={handleClose}
         MenuListProps={{
           'aria-labelledby': 'basic-button-account'
         }}
       >
         <MenuItem >
-          <Avatar sx={{ width: '28px', height: '28px', mr: 1 }} /> Profile
-        </MenuItem>
-        <MenuItem >
-          <Avatar sx={{ width: '28px', height: '28px', mr: 1 }} /> My account
+          <Avatar sx={{ width: '28px', height: '28px', mr: 1 }} alt="user-avatar" src={user?.avatar} /> Account
         </MenuItem>
         <Divider />
         <MenuItem >
@@ -63,7 +80,7 @@ function Account() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem >
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
