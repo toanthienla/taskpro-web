@@ -5,6 +5,7 @@ import Auth from '~/pages/Auth/Auth';
 import Verification from '~/pages/Auth/Verfication';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '~/redux/user/userSlice';
+import Settings from '~/pages/Settings/Settings';
 
 // Function to validate have user in localStorage help prevent visit unwanted site
 const ProtectedRoute = ({ user }) => {
@@ -24,6 +25,10 @@ function App() {
           <Navigate to='/boards/675681d53d32c24d9305bd48' replace={true} />
         } />
         <Route path='/boards/:boardId' element={<Board />} />
+
+        {/* User settings */}
+        <Route path='/settings/account' element={<Settings />} />
+        <Route path='/settings/security' element={<Settings />} />
       </Route>
 
       {/* User account */}

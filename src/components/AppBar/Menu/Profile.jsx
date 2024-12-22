@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentUser, logoutUserApi } from '~/redux/user/userSlice';
 import { useConfirm } from 'material-ui-confirm';
+import { Link } from 'react-router-dom';
 
 function Account() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -64,9 +65,12 @@ function Account() {
           'aria-labelledby': 'basic-button-account'
         }}
       >
-        <MenuItem >
-          <Avatar sx={{ width: '28px', height: '28px', mr: 1 }} alt="user-avatar" src={user?.avatar} /> Account
-        </MenuItem>
+
+        <Link to="/settings/account" style={{ color: 'inherit' }}>
+          <MenuItem >
+            <Avatar sx={{ width: '28px', height: '28px', mr: 1 }} alt="user-avatar" src={user?.avatar} /> Profile
+          </MenuItem>
+        </Link>
         <Divider />
         <MenuItem >
           <ListItemIcon>

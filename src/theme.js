@@ -92,6 +92,13 @@ const theme = extendTheme({
           }
         }
       }
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          minHeight: '55px'
+        }
+      }
     }
   }
 });

@@ -14,10 +14,11 @@ import Badge from '@mui/material/Badge';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Tooltip from '@mui/material/Tooltip';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import Account from './Menu/Account';
+import Account from './Menu/Profile';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
+import { Link } from 'react-router-dom';
 
 function AppBar() {
   return (
@@ -32,11 +33,13 @@ function AppBar() {
       overflowX: 'auto'
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+
         <AppsIcon sx={{ color: 'primary.main' }} />
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+
+        <Link to={'/'} style={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <SvgIcon component={TaskProIcon} inheritViewBox />
-          <Typography variant='span' sx={{ color: 'primary.main', fontWeight: 'bold', fontSize: '1.2rem' }}>TaskPro</Typography>
-        </Box>
+          <Typography variant='span' sx={{ color: 'primary.main', fontWeight: 'bold', fontSize: '1.3rem' }}>TaskPro</Typography>
+        </Link>
 
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
           <Workspaces />
