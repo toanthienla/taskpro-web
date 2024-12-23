@@ -7,6 +7,10 @@ import { API_ROOT } from '~/utils/constants';
 export const putBoardColumnOrderIdsApi = async (boarId, dndKitOrderedColumns) => {
   await authAxiosInstance.put(`${API_ROOT}/v1/boards/${boarId}`, { columnOrderIds: dndKitOrderedColumns });
 };
+export const getBoardsApi = async (page) => {
+  const response = await authAxiosInstance.get(`${API_ROOT}/v1/boards?page=${page}`);
+  return response.data;
+};
 
 
 // Column

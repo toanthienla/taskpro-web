@@ -10,6 +10,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCurrentUser, logoutUserApi } from '~/redux/user/userSlice';
 import { useConfirm } from 'material-ui-confirm';
@@ -68,21 +69,24 @@ function Account() {
 
         <Link to="/settings/account" style={{ color: 'inherit' }}>
           <MenuItem >
-            <Avatar sx={{ width: '28px', height: '28px', mr: 1 }} alt="user-avatar" src={user?.avatar} /> Profile
+            <ListItemIcon>
+              <AccountBoxIcon fontSize="small" />
+            </ListItemIcon>
+            Profile
           </MenuItem>
         </Link>
         <Divider />
         <MenuItem >
           <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem >
-          <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
+        </MenuItem>
+        <MenuItem >
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Add another account
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>

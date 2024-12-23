@@ -24,7 +24,7 @@ const theme = extendTheme({
           main: '#1e2341'
         },
         background: {
-          default: '#f0f5ff'
+          default: '#ffffff'
         },
         text: {
           primary: '#000000'
