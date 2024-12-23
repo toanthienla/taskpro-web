@@ -16,8 +16,6 @@ function Board() {
 
   useEffect(() => {
     dispatch(getBoardApi(boardId));
-    dispatch(getBoardApi(boardId));
-    dispatch(getBoardApi(boardId));
   }, [dispatch]); '';
 
   // Function call API when move column (Dndkit)

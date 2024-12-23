@@ -34,9 +34,11 @@ function AppBar() {
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
 
-        <AppsIcon sx={{ color: 'primary.main' }} />
+        <Link to='/boards'>
+          <AppsIcon sx={{ color: 'primary.main', verticalAlign: 'middle' }} />
+        </Link>
 
-        <Link to={'/'} style={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Link to={'/'} style={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <SvgIcon component={TaskProIcon} inheritViewBox />
           <Typography variant='span' sx={{ color: 'primary.main', fontWeight: 'bold', fontSize: '1.3rem' }}>TaskPro</Typography>
         </Link>
