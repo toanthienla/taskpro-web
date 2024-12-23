@@ -48,8 +48,7 @@ const theme = extendTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        body:
-        {
+        body: {
           '*::-webkit-scrollbar': {
             width: '4px',
             height: '4px'
