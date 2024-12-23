@@ -61,25 +61,32 @@ function AccountTab() {
     }
   };
 
-  const uploadAvatar = (e) => {
-    // Lấy file thông qua e.target?.files[0] và validate nó trước khi xử lý
-    console.log('e.target?.files[0]: ', e.target?.files[0]);
+  const uploadAvatar = async (e) => {
+    // Get first file from the list and validate it
     const error = singleFileValidator(e.target?.files[0]);
     if (error) {
       toast.error(error);
       return;
     }
 
-    // Sử dụng FormData để xử lý dữ liệu liên quan tới file khi gọi API
+    // Handle file upload with FormData before calling API
     let reqData = new FormData();
     reqData.append('avatar', e.target?.files[0]);
-    // Cách để log được dữ liệu thông qua FormData
-    console.log('reqData: ', reqData);
-    for (const value of reqData.values()) {
-      console.log('reqData Value: ', value);
+
+    // Call API
+    const res = await toast.promise(
+      dispatch(updateUserApi(reqData)),
+      {
+        pending: 'Uploading avatar...',
+        error: 'Upload failed!'
+      }
+    );
+    if (!res.error) {
+      toast.success('Uploaded successfully!');
     }
 
-    // Gọi API...
+    // Reset file input
+    e.target.value = '';
   };
 
   return (
