@@ -12,8 +12,11 @@ import Button from '@mui/material/Button';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { postNewBoardApi } from '~/apis';
 import { styled } from '@mui/material/styles';
+
 const SidebarItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -38,25 +41,27 @@ const BOARD_TYPES = {
 
 
 function SidebarCreateBoardModal() {
+  const navigate = useNavigate();
   const { control, register, handleSubmit, reset, formState: { errors } } = useForm();
 
   const [isOpen, setIsOpen] = useState(false);
   const handleOpenModal = () => setIsOpen(true);
   const handleCloseModal = () => {
     setIsOpen(false);
-    // Reset lại toàn bộ form khi đóng Modal
-    reset();
+    reset(); // Reset form fields
   };
 
 
-  const submitCreateNewBoard = (data) => {
-    const { title, description, type } = data;
-    console.log('Board title: ', title);
-    console.log('Board description: ', description);
-    console.log('Board type: ', type);
+  const submitCreateNewBoard = async (data) => {
+    const title = data.title.trim();
+    const description = data.description.trim();
+    const type = data.type;
+    const board = await postNewBoardApi({ title, description, type });
+    toast.success('Create new board successfully!');
+    handleCloseModal();
+    navigate(`/boards/${board._id}`);
   };
 
-  // <>...</> nhắc lại cho bạn anof chưa biết hoặc quên nhé: nó là React Fragment, dùng để bọc các phần tử lại mà không cần chỉ định DOM Node cụ thể nào cả.
   return (
     <>
       <SidebarItem onClick={handleOpenModal}>

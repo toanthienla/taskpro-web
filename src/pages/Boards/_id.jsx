@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import AppBar from '~/components/AppBar/AppBar';
 import BoardBar from './BoardBar/BoardBar';
 import BoardContent from './BoardContent/BoardContent';
-import { putBoardColumnOrderIdsApi, putColumnCardOrderIdsApi, deleteColumnCardOrderIdsApi, putCardColumnIdApi } from '~/apis';
+import { putBoardColumnOrderIdsApi, updateColumnApi, deleteColumnCardOrderIdsApi, putCardColumnIdApi } from '~/apis';
 import { getBoardApi, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -35,7 +35,7 @@ function Board() {
     newBoard.columns = orderedColumns;
     dispatch(updateCurrentActiveBoard(newBoard));
 
-    putColumnCardOrderIdsApi(columnId, cardOrderIds);
+    updateColumnApi({ columnId, cardOrderIds });
   };
 
   // Function call API when move card to different column (Dndkit)
@@ -50,7 +50,7 @@ function Board() {
     deleteColumnCardOrderIdsApi(activeColumnId, cardId);
     putCardColumnIdApi(overColumnId, cardId);
     if (cardOrderIds) {
-      putColumnCardOrderIdsApi(overColumnId, cardOrderIds);
+      updateColumnApi({ columnId: overColumnId, cardOrderIds });
     }
   };
 

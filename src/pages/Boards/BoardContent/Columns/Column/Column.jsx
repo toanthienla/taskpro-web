@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { useState, useRef, useEffect } from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -23,6 +22,8 @@ import { cloneDeep } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectCurrentActiveBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice';
 import { deleteColumnApi } from '~/apis';
+import ToggleFocusInput from '~/components/Form/ToggleFocusInput';
+import { updateColumnApi } from '~/apis';
 
 function Column({ column }) {
   const orderedCards = column?.cards;
@@ -123,6 +124,15 @@ function Column({ column }) {
       .catch(() => { });
   };
 
+  const onUpdateColumnTitle = async (newTitle) => {
+    // Call API and update redux
+    await updateColumnApi({ title: newTitle, columnId: column._id });
+    const newBoard = cloneDeep(board);
+    const columnToUpdate = newBoard.columns.find(col => col._id === column._id);
+    columnToUpdate.title = newTitle;
+    dispatch(updateCurrentActiveBoard(newBoard));
+  };
+
   return (
     <div ref={setNodeRef} style={{ ...dndKitStyle, outline: 'none' }} {...attributes}>
       < Box
@@ -142,13 +152,15 @@ function Column({ column }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          p: 2
+          paddingRight: 2,
+          paddingLeft: '10px',
+          marginBottom: '5px'
         }}>
-          <Typography sx={{
-            fontSize: '1rem !important',
-            fontWeight: '600',
-            cursor: 'pointer'
-          }}>{column?.title}</Typography>
+
+          <ToggleFocusInput value={column?.title}
+            onChangedValue={onUpdateColumnTitle}
+          />
+
           <Tooltip title="More options">
             <ExpandMoreIcon
               id="basic-column-dropdown"
