@@ -4,6 +4,10 @@ import { API_ROOT } from '~/utils/constants';
 // Catch error Interceptor after done basic
 
 // Board
+export const postNewBoardApi = async (board) => {
+  const response = await authAxiosInstance.post(`${API_ROOT}/v1/boards`, board);
+  return response.data;
+};
 export const putBoardColumnOrderIdsApi = async (boarId, dndKitOrderedColumns) => {
   await authAxiosInstance.put(`${API_ROOT}/v1/boards/${boarId}`, { columnOrderIds: dndKitOrderedColumns });
 };
@@ -18,8 +22,8 @@ export const postNewColumnApi = async (column) => {
   const response = await authAxiosInstance.post(`${API_ROOT}/v1/columns`, column);
   return response.data;
 };
-export const putColumnCardOrderIdsApi = async (columnId, dndKitOrderedCards) => {
-  await authAxiosInstance.put(`${API_ROOT}/v1/columns`, { columnId, cardOrderIds: dndKitOrderedCards });
+export const updateColumnApi = async (data) => {
+  await authAxiosInstance.put(`${API_ROOT}/v1/columns`, data);
 };
 export const deleteColumnCardOrderIdsApi = async (columnId, cardId) => {
   // Delete RestAPI not have body

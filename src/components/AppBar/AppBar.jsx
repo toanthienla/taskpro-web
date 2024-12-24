@@ -34,8 +34,10 @@ function AppBar() {
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
 
-        <Link to='/boards'>
-          <AppsIcon sx={{ color: 'primary.main', verticalAlign: 'middle' }} />
+        <Link to='/boards' state={{ openCreateModal: true }}>
+          <Tooltip title="List Boards">
+            <AppsIcon sx={{ color: 'primary.main', verticalAlign: 'middle' }} />
+          </Tooltip>
         </Link>
 
         <Link to={'/'} style={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -48,9 +50,11 @@ function AppBar() {
           <Recent />
           <Starred />
           <Templates />
-          <Button variant="outlined" startIcon={<AddToPhotosIcon />}>
-            Create
-          </Button>
+          <Link to={'/boards'}>
+            <Button variant="outlined" startIcon={<AddToPhotosIcon />}>
+              Create
+            </Button>
+          </Link>
         </Box>
       </Box>
 
