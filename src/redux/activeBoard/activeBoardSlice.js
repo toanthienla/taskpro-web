@@ -24,11 +24,20 @@ export const activeBoardSlice = createSlice({
   reducers: {
     updateCurrentActiveBoard: (state, action) => {
       let board = action.payload;
-
-      // Perform logic here
-      // ...
-
       state.currentActiveBoard = board;
+    },
+    updateCardInBoard: (state, action) => {
+      // Updating nested data
+      const newCard = action.payload;
+      const column = state.currentActiveBoard.columns.find(i => i._id === newCard.columnId);
+      if (column) {
+        const card = column.cards.find(i => i._id === newCard._id);
+        if (card) {
+          Object.keys(newCard).forEach(key => {
+            card[key] = newCard[key];
+          });
+        }
+      }
     }
   },
   // Handle async data
@@ -60,7 +69,7 @@ export const activeBoardSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // dispath() -> update data by reducer
-export const { updateCurrentActiveBoard } = activeBoardSlice.actions;
+export const { updateCurrentActiveBoard, updateCardInBoard } = activeBoardSlice.actions;
 
 // Selectors -> useSelector()
 export const selectCurrentActiveBoard = (state) => {
