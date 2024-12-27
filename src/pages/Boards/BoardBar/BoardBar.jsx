@@ -12,6 +12,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import Tooltip from '@mui/material/Tooltip';
 import { alpha } from '@mui/material/styles';
 import { capitalizeFirstLetter } from '~/utils/formatters';
+import BoardUserGroup from './BoardUserGroup';
 
 const MENU_STYLES = {
   color: 'primary.main',
@@ -54,19 +55,9 @@ function BoardBar({ board }) {
         <Button variant="outlined" startIcon={<PersonAddAlt1Icon />}>
           Invite
         </Button>
-        <AvatarGroup max={4} sx={{
-          '& .MuiAvatar-root': {
-            fontSize: '16px',
-            width: '34px',
-            height: '34px'
-          }
-        }}>
-          <Avatar alt="ToanLa" src="/hamster.jpg" />
-          <Avatar alt="ToanLa" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_5LwQ3_Ik8lai147xZGje_6CcRjixf90QWQ&s" />
-          <Avatar alt="ToanLa" src="https://file.aiquickdraw.com/imgcompressed/img/compressed_c9741e1459a08fc6af8a48e2a8a2c844.webp" />
-          <Avatar alt="ToanLa" src="hamster.jpg" />
-          <Avatar alt="ToanLa" src="hamster.jpg" />
-        </AvatarGroup>
+
+        {/* Avatars Group */}
+        <BoardUserGroup />
       </Box>
     </Box>
   );

@@ -43,8 +43,10 @@ export const postNewCardApi = async (card) => {
   const response = await authAxiosInstance.post(`${API_ROOT}/v1/cards`, card);
   return response.data;
 };
-export const putCardColumnIdApi = async (columnId, cardId) => {
-  await authAxiosInstance.put(`${API_ROOT}/v1/cards`, { columnId, cardId });
+export const updateCardApi = async (cardId, data) => {
+  console.log(data);
+  const response = await authAxiosInstance.put(`${API_ROOT}/v1/cards/${cardId}`, data);
+  return response.data;
 };
 
 // User

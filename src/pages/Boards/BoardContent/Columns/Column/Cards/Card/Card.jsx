@@ -10,8 +10,11 @@ import { alpha } from '@mui/material';
 import { Card as MuiCard } from '@mui/material';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useDispatch } from 'react-redux';
+import { updateCurrentActiveCard } from '~/redux/activeCard/activeCardSlice';
 
 function Card({ card }) {
+  const dispatch = useDispatch();
 
   const showCardActions = !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length;
 
@@ -28,6 +31,7 @@ function Card({ card }) {
 
   return (
     <MuiCard
+      onClick={() => dispatch(updateCurrentActiveCard(card))}
       ref={setNodeRef} style={dndKitStyle} {...attributes} {...listeners}
       sx={{
         cursor: 'pointer', overflow: 'unset',

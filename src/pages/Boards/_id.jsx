@@ -3,14 +3,17 @@ import Container from '@mui/material/Container';
 import AppBar from '~/components/AppBar/AppBar';
 import BoardBar from './BoardBar/BoardBar';
 import BoardContent from './BoardContent/BoardContent';
-import { putBoardColumnOrderIdsApi, updateColumnApi, deleteColumnCardOrderIdsApi, putCardColumnIdApi } from '~/apis';
+import { putBoardColumnOrderIdsApi, updateColumnApi, deleteColumnCardOrderIdsApi, updateCardApi } from '~/apis';
 import { getBoardApi, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import LoadingPage from '~/components/Loading/LoadingPage';
+import ActiveCard from '~/components/Modal/ActiveCard/ActiveCard';
+import { selectCurrentActiveCard } from '~/redux/activeCard/activeCardSlice';
 
 function Board() {
   const board = useSelector(selectCurrentActiveBoard);
+  const activeCard = useSelector(selectCurrentActiveCard);
   const dispatch = useDispatch();
   const { boardId } = useParams();
 
@@ -48,7 +51,7 @@ function Board() {
     }
 
     deleteColumnCardOrderIdsApi(activeColumnId, cardId);
-    putCardColumnIdApi(overColumnId, cardId);
+    updateCardApi(cardId, { columnId: overColumnId });
     if (cardOrderIds) {
       updateColumnApi({ columnId: overColumnId, cardOrderIds });
     }
@@ -61,6 +64,9 @@ function Board() {
 
   return (
     <Container disableGutters maxWidth='false' sx={{ height: '100vh' }} >
+
+      {activeCard && <ActiveCard />}
+
       <AppBar />
       <BoardBar board={board} />
       <BoardContent
