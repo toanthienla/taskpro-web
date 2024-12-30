@@ -103,7 +103,7 @@ function Notifications() {
         {(!notifications || (notifications.length === 0)) && <MenuItem sx={{ minWidth: 200 }}>
           <Typography
             sx={{ color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)' }}
-          >No notifications available...</Typography>
+          >No notifications available</Typography>
         </MenuItem>}
 
         {notifications?.map((notification, index) =>
