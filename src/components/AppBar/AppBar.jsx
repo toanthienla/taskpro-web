@@ -10,8 +10,6 @@ import Starred from './Menu/Starred';
 import Templates from './Menu/Templates';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import Badge from '@mui/material/Badge';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Tooltip from '@mui/material/Tooltip';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Account from './Menu/Profile';
@@ -19,6 +17,7 @@ import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import { Link } from 'react-router-dom';
+import Notifications from './Notifications/Notifications';
 
 function AppBar() {
   return (
@@ -85,17 +84,15 @@ function AppBar() {
             }
           }}
         />
+
+        {/* Handle dark/light mode */}
         <ModeSelect />
 
-        <Tooltip title="Notification">
-          <Badge variant="dot" color='error' sx={{
-            cursor: 'pointer'
-          }}>
-            <NotificationsNoneIcon sx={{ color: 'primary.main' }} />
-          </Badge>
-        </Tooltip>
-        <Tooltip title="Help" sx={{ cursor: 'pointer' }}>
-          <HelpOutlineIcon sx={{ color: 'primary.main' }} />
+        {/* Handle notifications */}
+        <Notifications />
+
+        <Tooltip title="Help" >
+          <HelpOutlineIcon sx={{ color: 'primary.main', cursor: 'pointer' }} />
         </Tooltip>
 
         <Account />

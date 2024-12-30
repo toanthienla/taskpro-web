@@ -2,17 +2,17 @@ import { Box } from '@mui/material';
 import Chip from '@mui/material/Chip';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import VpnLockIcon from '@mui/icons-material/VpnLock';
-import AddToDriveIcon from '@mui/icons-material/AddToDrive';
-import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import Button from '@mui/material/Button';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+// import AddToDriveIcon from '@mui/icons-material/AddToDrive';
+// import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+// import FilterListIcon from '@mui/icons-material/FilterList';
+// import Button from '@mui/material/Button';
+// import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import Tooltip from '@mui/material/Tooltip';
 import { alpha } from '@mui/material/styles';
 import { capitalizeFirstLetter } from '~/utils/formatters';
 import BoardUserGroup from './BoardUserGroup';
+import InviteBoardUser from './InviteBoardUser';
+import { inviteUserToBoardApi } from '~/apis';
 
 const MENU_STYLES = {
   color: 'primary.main',
@@ -29,6 +29,10 @@ const MENU_STYLES = {
 };
 
 function BoardBar({ board }) {
+  const onAddUserToBoard = async (inviteeEmail) => {
+    return await inviteUserToBoardApi({ boardId: board._id, inviteeEmail });
+  };
+
   return (
     <Box sx={{
       height: (theme) => theme.taskPro.boardBarHeight,
@@ -46,18 +50,18 @@ function BoardBar({ board }) {
           <Chip icon={<DashboardIcon />} label={board?.title} sx={MENU_STYLES} clickable />
         </Tooltip>
         <Chip icon={<VpnLockIcon />} label={capitalizeFirstLetter(board?.type)} sx={MENU_STYLES} clickable />
-        <Chip icon={<AddToDriveIcon />} label="Add To Google Drive" sx={MENU_STYLES} clickable />
+        {/* <Chip icon={<AddToDriveIcon />} label="Add To Google Drive" sx={MENU_STYLES} clickable />
         <Chip icon={<AutoFixHighIcon />} label="Automation" sx={MENU_STYLES} clickable />
-        <Chip icon={<FilterListIcon />} label="Filter" sx={MENU_STYLES} clickable />
+        <Chip icon={<FilterListIcon />} label="Filter" sx={MENU_STYLES} clickable /> */}
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Button variant="outlined" startIcon={<PersonAddAlt1Icon />}>
-          Invite
-        </Button>
+
+        {/* Handle invite user */}
+        <InviteBoardUser handleAddUserToBoard={onAddUserToBoard} />
 
         {/* Avatars Group */}
-        <BoardUserGroup />
+        <BoardUserGroup boardUsers={board?.FE_allUsers} />
       </Box>
     </Box>
   );
