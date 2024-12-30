@@ -45,7 +45,7 @@ const SidebarItem = styled(Box)(({ theme }) => ({
   cursor: 'pointer',
   fontSize: '14px',
   fontWeight: '600',
-  color: theme.palette.mode === 'dark' ? '#b6c2cf' : '#172b4d',
+  color: theme.palette.mode === 'dark' ? 'white' : '#172b4d',
   backgroundColor: theme.palette.mode === 'dark' ? '#2f3542' : '#091e420f',
   padding: '10px',
   borderRadius: '4px',
@@ -113,6 +113,10 @@ function ActiveCard() {
     event.target.value = '';
   };
 
+  const onAddCardComment = async (commentToAdd) => {
+    await callUpdateCardApi({ commentToAdd });
+  };
+
   return (
     <Modal
       disableScrollLock
@@ -127,7 +131,7 @@ function ActiveCard() {
         borderRadius: '8px',
         border: 'none',
         outline: 0,
-        padding: '50px 20px 20px',
+        padding: '50px 20px 10px',
         margin: '50px auto',
         backgroundColor: (theme) => theme.palette.mode === 'dark' ? '#1A2027' : '#fff'
       }}>
@@ -151,7 +155,7 @@ function ActiveCard() {
           </Box>
         }
 
-        <Box sx={{ mb: 1, mt: -3, pr: 2.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box sx={{ mb: 1, mt: -3, pr: 2.5, display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <CreditCardIcon />
 
           {/* Handle card title */}
@@ -191,7 +195,10 @@ function ActiveCard() {
               </Box>
 
               {/* Comments on card */}
-              <CardActivitySection />
+              <CardActivitySection
+                cardComments={activeCard?.comments}
+                onAddCardComment={onAddCardComment}
+              />
             </Box>
           </Grid>
 
@@ -222,7 +229,9 @@ function ActiveCard() {
 
             <Typography sx={{ fontWeight: '600', color: 'primary.main', mb: 1 }}>Power-Ups</Typography>
             <Stack direction="column" spacing={1}>
-              <Typography sx={{ color: 'rgba(0, 0, 0, 0.5)' }}>In development...</Typography>
+              <Typography
+                sx={{ color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)' }}
+              >In development...</Typography>
 
               {/* <SidebarItem><AspectRatioOutlinedIcon fontSize="small" />Card Size</SidebarItem>
               <SidebarItem><AddToDriveOutlinedIcon fontSize="small" />Google Drive</SidebarItem>

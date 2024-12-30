@@ -4,12 +4,12 @@ import AppBar from '~/components/AppBar/AppBar';
 import BoardBar from './BoardBar/BoardBar';
 import BoardContent from './BoardContent/BoardContent';
 import { putBoardColumnOrderIdsApi, updateColumnApi, deleteColumnCardOrderIdsApi, updateCardApi } from '~/apis';
-import { getBoardApi, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice';
+import { getBoardApi, updateCurrentActiveBoard, selectCurrentActiveBoard, clearActiveBoard } from '~/redux/activeBoard/activeBoardSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import LoadingPage from '~/components/Loading/LoadingPage';
 import ActiveCard from '~/components/Modal/ActiveCard/ActiveCard';
-import { selectCurrentActiveCard } from '~/redux/activeCard/activeCardSlice';
+import { selectCurrentActiveCard, clearCurrentActiveCard } from '~/redux/activeCard/activeCardSlice';
 
 function Board() {
   const board = useSelector(selectCurrentActiveBoard);
@@ -19,7 +19,13 @@ function Board() {
 
   useEffect(() => {
     dispatch(getBoardApi(boardId));
-  }, [dispatch]); '';
+
+    return () => {
+      // Clear board, card in redux when leave board page
+      dispatch(clearActiveBoard());
+      dispatch(clearCurrentActiveCard());
+    };
+  }, [dispatch, boardId]); '';
 
   // Function call API when move column (Dndkit)
   const moveColumn = (orderedColumns) => {

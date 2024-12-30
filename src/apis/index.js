@@ -16,7 +16,6 @@ export const getBoardsApi = async (page) => {
   return response.data;
 };
 
-
 // Column
 export const postNewColumnApi = async (column) => {
   const response = await authAxiosInstance.post(`${API_ROOT}/v1/columns`, column);
@@ -44,7 +43,6 @@ export const postNewCardApi = async (card) => {
   return response.data;
 };
 export const updateCardApi = async (cardId, data) => {
-  console.log(data);
   const response = await authAxiosInstance.put(`${API_ROOT}/v1/cards/${cardId}`, data);
   return response.data;
 };
@@ -60,5 +58,11 @@ export const validateUserApi = async (email, token) => {
 };
 export const refreshTokenApi = async () => {
   const response = await authAxiosInstance.get(`${API_ROOT}/v1/users/refresh_token`);
+  return response.data;
+};
+
+// Invitation
+export const inviteUserToBoardApi = async (data) => {
+  const response = await authAxiosInstance.post(`${API_ROOT}/v1/invitations/board`, data);
   return response.data;
 };

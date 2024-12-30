@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '~/redux/user/userSlice';
 
-function CardActivitySection() {
+function CardActivitySection({ cardComments = [], onAddCardComment }) {
   const currentUser = useSelector(selectCurrentUser);
 
   const handleAddCardComment = (event) => {
@@ -18,11 +18,12 @@ function CardActivitySection() {
       if (!event.target?.value) return;
 
       const commentToAdd = {
-        userAvatar: currentUser?.avatar,
-        userDisplayName: currentUser?.displayName,
+        avatar: currentUser?.avatar,
+        displayName: currentUser?.displayName,
         content: event.target.value.trim()
       };
-      console.log(commentToAdd);
+
+      onAddCardComment(commentToAdd).then(() => event.target.value = '');
     }
   };
 
@@ -45,25 +46,20 @@ function CardActivitySection() {
       </Box>
 
       {/* Show list comments */}
-      {/* {[...Array(0)].length === 0 &&
-        <Typography sx={{ pl: '45px', fontSize: '14px', fontWeight: '500', color: '#b1b1b1' }}>No activity found!</Typography>
-      } */}
-      {[...Array(2)].map((_, index) =>
+      {cardComments.map((comment, index) =>
         <Box sx={{ display: 'flex', gap: 1.5, width: '100%', mb: 1.5 }} key={index}>
-          <Tooltip title="avatar">
-            <Avatar
-              sx={{ width: 36, height: 36, cursor: 'pointer' }}
-              alt="avatar"
-              src="https://trungquandev.com/wp-content/uploads/2019/06/trungquandev-cat-avatar.png"
-            />
-          </Tooltip>
+          <Avatar
+            sx={{ width: 36, height: 36, cursor: 'pointer' }}
+            alt="avatar"
+            src={comment?.avatar}
+          />
           <Box sx={{ width: 'inherit' }}>
-            <Typography variant="span" sx={{ fontWeight: 'bold', mr: 1 }}>
-              Toan La
+            <Typography variant="span" sx={{ fontWeight: '500', mr: 1 }}>
+              {comment?.displayName}
             </Typography>
 
             <Typography variant="span" sx={{ fontSize: '12px' }}>
-              {moment().format('llll')}
+              {moment(comment?.commentedAt).fromNow()}
             </Typography>
 
             <Box sx={{
@@ -74,9 +70,10 @@ function CardActivitySection() {
               border: '0.5px solid rgba(0, 0, 0, 0.2)',
               borderRadius: '4px',
               wordBreak: 'break-word',
-              boxShadow: '0 0 1px rgba(0, 0, 0, 0.2)'
+              boxShadow: '0 0 1px rgba(0, 0, 0, 0.2)',
+              fontSize: '0.875rem'
             }}>
-              ...
+              {comment?.content}
             </Box>
           </Box>
         </Box>

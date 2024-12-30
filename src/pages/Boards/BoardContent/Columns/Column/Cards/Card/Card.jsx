@@ -59,13 +59,13 @@ function Card({ card }) {
 
       {showCardActions &&
         <CardActions sx={{ paddingTop: 0 }}>
-          {!!card?.memberIds.length &&
+          {!!card?.memberIds?.length &&
             <Button size="small" startIcon={<GroupIcon />}>{card.memberIds.length}</Button>
           }
-          {!!card?.comments.length &&
+          {!!card?.comments?.length &&
             <Button size="small" startIcon={<CommentIcon />}>{card.comments.length}</Button>
           }
-          {!!card?.attachments.length &&
+          {!!card?.attachments?.length &&
             <Button size="small" startIcon={<AttachmentIcon />}>{card.attachments.length}</Button>
           }
         </CardActions>

@@ -13,16 +13,16 @@ import { ConfirmProvider } from 'material-ui-confirm';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
-// Inject store to use store outside component
+// Inject store to use store outside component (axios error handling)
 import { injectStore } from './apis/authAxios.js';
 injectStore(store);
 
 let persistor = persistStore(store);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename='/'>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <BrowserRouter basename='/'>
         <CssVarsProvider theme={theme}>
           <ConfirmProvider>
             <GlobalStyles styles={{ a: { textDecoration: 'none' } }} />
@@ -43,7 +43,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               transition={Bounce} />
           </ConfirmProvider>
         </CssVarsProvider>
-      </PersistGate>
-    </Provider>
-  </BrowserRouter>
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>
 );

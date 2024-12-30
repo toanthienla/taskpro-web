@@ -54,7 +54,7 @@ function CardDescriptionMdEditor({ cardDescriptionProp, handleUpdateCardDescript
             Edit
           </Button>
           <Box data-color-mode={mode}>
-            {!cardDescription && <Box sx={{ color: 'rgba(0, 0, 0, 0.5)' }}>No description</Box>}
+            {!cardDescription && <Box sx={{ color: (theme) => theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)' }}>No description</Box>}
             <MDEditor.Markdown
               source={cardDescription}
               style={{

@@ -38,6 +38,9 @@ export const activeBoardSlice = createSlice({
           });
         }
       }
+    },
+    clearActiveBoard: (state) => {
+      state.currentActiveBoard = null;
     }
   },
   // Handle async data
@@ -46,6 +49,9 @@ export const activeBoardSlice = createSlice({
       // fulfilled is when promise is success
       // action.payload is return reponse data
       const board = action.payload;
+
+      // Get all users in board
+      board.FE_allUsers = board.owners.concat(board.members);
 
       // Sort column by columnOrderIds
       board.columns = mapOrder(board?.columns, board?.columnOrderIds, '_id');
@@ -69,7 +75,7 @@ export const activeBoardSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // dispath() -> update data by reducer
-export const { updateCurrentActiveBoard, updateCardInBoard } = activeBoardSlice.actions;
+export const { updateCurrentActiveBoard, updateCardInBoard, clearActiveBoard } = activeBoardSlice.actions;
 
 // Selectors -> useSelector()
 export const selectCurrentActiveBoard = (state) => {
