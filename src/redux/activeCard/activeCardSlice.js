@@ -9,12 +9,7 @@ export const activeCardSlice = createSlice({
   initialState,
   reducers: {
     updateCurrentActiveCard: (state, action) => {
-      let card = action.payload;
-
-      // Perform logic here
-      // ...
-
-      state.currentActiveCard = card;
+      state.currentActiveCard = action.payload;
     },
     clearCurrentActiveCard: (state) => {
       state.currentActiveCard = null;

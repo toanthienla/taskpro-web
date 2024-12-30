@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
@@ -8,20 +7,20 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
-import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
-import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
-import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
+// import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+// import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
+// import WatchLaterOutlinedIcon from '@mui/icons-material/WatchLaterOutlined';
+// import AttachFileOutlinedIcon from '@mui/icons-material/AttachFileOutlined';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
-import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
-import AspectRatioOutlinedIcon from '@mui/icons-material/AspectRatioOutlined';
-import AddToDriveOutlinedIcon from '@mui/icons-material/AddToDriveOutlined';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
-import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
-import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
-import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+// import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
+// import AspectRatioOutlinedIcon from '@mui/icons-material/AspectRatioOutlined';
+// import AddToDriveOutlinedIcon from '@mui/icons-material/AddToDriveOutlined';
+// import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+// import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
+// import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+// import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
+// import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
+// import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import SubjectRoundedIcon from '@mui/icons-material/SubjectRounded';
 import DvrOutlinedIcon from '@mui/icons-material/DvrOutlined';
 import ToggleFocusInput from '~/components/Form/ToggleFocusInput';
@@ -34,9 +33,15 @@ import CardActivitySection from './CardActivitySection';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCurrentActiveCard, selectCurrentActiveCard, updateCurrentActiveCard } from '~/redux/activeCard/activeCardSlice';
 import { updateCardInBoard } from '~/redux/activeBoard/activeBoardSlice';
+import { selectCurrentUser } from '~/redux/user/userSlice';
 import { updateCardApi } from '~/apis';
+import { useConfirm } from 'material-ui-confirm';
 import { styled } from '@mui/material/styles';
 
+const CARD_MEMBER_ACTION = {
+  ADD: 'add',
+  REMOVE: 'remove'
+};
 
 const SidebarItem = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -61,6 +66,7 @@ const SidebarItem = styled(Box)(({ theme }) => ({
 function ActiveCard() {
   const dispatch = useDispatch();
   const activeCard = useSelector(selectCurrentActiveCard);
+  const user = useSelector(selectCurrentUser);
 
   let isClose = false; // Flag check when user update new title and user click out modal is close dont updateActiveCard again
   const handleCloseModal = () => {
@@ -117,6 +123,32 @@ function ActiveCard() {
     await callUpdateCardApi({ commentToAdd });
   };
 
+  const confirmRemoveMember = useConfirm();
+  const onUpdateCardMembers = async (member) => {
+    const action = activeCard?.memberIds?.includes(member._id) ? CARD_MEMBER_ACTION.REMOVE : CARD_MEMBER_ACTION.ADD;
+    const isActiveUser = member._id === user._id;
+
+    // Confirm remove member
+    if (action === CARD_MEMBER_ACTION.REMOVE) {
+      try {
+        await confirmRemoveMember({
+          title: isActiveUser ? 'Leave card' : `Remove ${member?.displayName} from this card?`,
+          description: isActiveUser ? 'Are you sure you want to leave this card?' : `Are you sure you want to remove ${member?.displayName} from this card? This action cannot be undone.`,
+          confirmationText: isActiveUser ? 'Leave' : 'Remove',
+          dialogProps: { maxWidth: 'xs' },
+          confirmationButtonProps: { color: 'error' }
+        });
+      } catch {
+        return;
+      }
+    }
+
+    await callUpdateCardApi({
+      userId: user._id,
+      action: action
+    });
+  };
+
   return (
     <Modal
       disableScrollLock
@@ -168,11 +200,15 @@ function ActiveCard() {
         <Grid container spacing={2} sx={{ mb: 3 }}>
           {/* Left side */}
           <Grid xs={12} sm={9}>
+
             <Box sx={{ mb: 3 }}>
-              <Typography sx={{ fontWeight: '600', color: 'primary.main', mb: 1 }}>Members</Typography>
+              <Typography variant="span" sx={{ fontWeight: '600', color: 'primary.main' }}>Members</Typography>
 
               {/* Members in card */}
-              <CardUserGroup />
+              <CardUserGroup
+                cardMemberIds={activeCard?.memberIds}
+                handleUpdateCardMembers={onUpdateCardMembers}
+              />
             </Box>
 
             <Box sx={{ mb: 3 }}>
@@ -206,11 +242,13 @@ function ActiveCard() {
           <Grid xs={12} sm={3}>
             <Typography sx={{ fontWeight: '600', color: 'primary.main', mb: 1 }}>Enhancement</Typography>
             <Stack direction="column" spacing={1}>
-              {/* User join card */}
-              <SidebarItem className="active">
+
+              {/* User join/leave card */}
+              <SidebarItem className="active" onClick={() => onUpdateCardMembers(user)}>
                 <PersonOutlineOutlinedIcon fontSize="small" />
-                Join
+                {activeCard?.memberIds?.includes(user._id) ? 'Leave' : 'Join'}
               </SidebarItem>
+
               {/* Update cover image */}
               <SidebarItem className="active" component="label">
                 <ImageOutlinedIcon fontSize="small" />
