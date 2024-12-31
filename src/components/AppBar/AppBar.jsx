@@ -4,20 +4,18 @@ import AppsIcon from '@mui/icons-material/Apps';
 import SvgIcon from '@mui/material/SvgIcon';
 import { ReactComponent as TaskProIcon } from '~/assets/TaskProIcon.svg';
 import Typography from '@mui/material/Typography';
-import Workspaces from './Menu/Workspaces';
-import Recent from './Menu/Recent';
-import Starred from './Menu/Starred';
-import Templates from './Menu/Templates';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+// import Workspaces from './Menu/Workspaces';
+// import Recent from './Menu/Recent';
+// import Starred from './Menu/Starred';
+// import Templates from './Menu/Templates';
+// import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+// import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import Account from './Menu/Profile';
-import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
-import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
+// import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import { Link } from 'react-router-dom';
 import Notifications from './Notifications/Notifications';
+import AutoCompleteSearchBoard from './SearchBoards/AutoCompleteSearchBoard';
 
 function AppBar() {
   return (
@@ -45,45 +43,22 @@ function AppBar() {
         </Link>
 
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
-          <Workspaces />
-          <Recent />
-          <Starred />
-          <Templates />
-          <Link to={'/boards'}>
+          {/* <Workspaces /> */}
+          {/* <Recent /> */}
+          {/* <Starred /> */}
+          {/* <Templates /> */}
+          {/* <Link to={'/boards'}>
             <Button variant="outlined" startIcon={<AddToPhotosIcon />}>
               Create
             </Button>
-          </Link>
+          </Link> */}
         </Box>
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <TextField id="outlined-search" label="Search field" type="search" size='small'
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'primary.main', fontSize: '20px' }} />
-              </InputAdornment>
-            )
-          }}
-          sx={{
-            minWidth: '120px',
-            '& label': { color: 'primary.main' },
-            '& input': { color: 'primary.dark' },
-            '& .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'primary.light'
-            },
-            '&:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: (theme) => `${theme.palette.primary.main} !important`
-            },
-            '& .Mui-focused .MuiOutlinedInput-notchedOutline': {
-              borderColor: 'primary.main'
-            },
-            '& label.Mui-focused': {
-              color: 'primary.main'
-            }
-          }}
-        />
+
+        {/* Search board textField */}
+        <AutoCompleteSearchBoard />
 
         {/* Handle dark/light mode */}
         <ModeSelect />
@@ -91,9 +66,9 @@ function AppBar() {
         {/* Handle notifications */}
         <Notifications />
 
-        <Tooltip title="Help" >
+        {/* <Tooltip title="Help" >
           <HelpOutlineIcon sx={{ color: 'primary.main', cursor: 'pointer' }} />
-        </Tooltip>
+        </Tooltip> */}
 
         <Account />
       </Box>

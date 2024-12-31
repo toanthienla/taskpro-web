@@ -61,7 +61,9 @@ authAxiosInstance.interceptors.response.use((response) => {
       return authAxiosInstance(originalRequests); // Retry the original request with new token
     });
   }
-  // Handle other errors
+  else if (errorStatus === 404) {
+    window.location.href = '/404';
+  }
   else {
     toast.error(errorMessage);
   }
