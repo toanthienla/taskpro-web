@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { useSelector } from 'react-redux';
-import { selectCurrentActiveCard } from '~/redux/activeCard/activeCardSlice';
 
 // Use this component to toggle focus between Typography and TextField
 function ToggleFocusInput({ value, onChangedValue, inputFontSize = '16px' }) {
   const [inputValue, setInputValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
-  const activeCard = useSelector(selectCurrentActiveCard);
 
   const triggerBlur = () => {
     setIsFocused(false);

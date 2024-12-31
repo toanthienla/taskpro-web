@@ -4,7 +4,7 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 
-function NotFound() {
+function ComingSoon() {
   return (
     <Box sx={{
       width: '100vw',
@@ -17,9 +17,9 @@ function NotFound() {
       justifyContent: 'center',
       gap: 1
     }}>
-      <Typography variant="h1" sx={{ fontSize: '3.5rem', fontWeight: 800, color: 'text.primary' }}>Oops 404!</Typography>
+      <Typography variant="h1" sx={{ fontSize: '3.5rem', fontWeight: 800, color: 'text.primary' }}>Coming Soon!</Typography>
 
-      <Link to="/" style={{ textDecoration: 'none' }}>
+      <Link to={-1} style={{ textDecoration: 'none' }}>
         <Button
           startIcon={<KeyboardReturnIcon />}
           sx={{
@@ -33,4 +33,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default ComingSoon;

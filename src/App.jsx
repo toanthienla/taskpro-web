@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '~/redux/user/userSlice';
 import Settings from '~/pages/Settings/Settings';
 import Boards from '~/pages/Boards';
-
+import ComingSoon from '~/components/ComingSoon/ComingSoon';
 
 // Function to validate have user in localStorage help prevent visit unwanted site
 const ProtectedRoute = ({ user }) => {
@@ -38,6 +38,9 @@ function App() {
       <Route path='/login' element={<Auth />} />
       <Route path='/register' element={<Auth />} />
       <Route path='/account/verification' element={<Verification />} />
+
+      {/* Coming soon */}
+      <Route path='/coming-soon' element={<ComingSoon />} />
 
       {/* 404 page */}
       <Route path='*' element={<NotFound />} />

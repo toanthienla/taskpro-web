@@ -16,7 +16,7 @@ export const activeCardSlice = createSlice({
     }
   },
   // Handle async data
-  extraReducers: (builder) => { }
+  extraReducers: () => { }
 });
 
 // Action creators are generated for each case reducer function

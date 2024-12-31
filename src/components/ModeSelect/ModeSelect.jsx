@@ -42,12 +42,13 @@ function ModeSelect() {
         sx={{
           color: 'primary.main',
           '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'primary.light'
+            borderColor: 'primary.main'
           },
           '&:hover .MuiOutlinedInput-notchedOutline': {
             borderColor: 'primary.main'
           },
-          '&.Mui-focused': {
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'primary.light',
             color: 'primary.main'
           },
           '& .MuiSvgIcon-root': {
