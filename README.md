@@ -69,14 +69,14 @@ A React-based Kanban-style task management app for organizing tasks and collabor
 
 ## 🎨 Design Showcase
 
-<div style="display: flex; gap: 10px; flex-wrap: wrap">
-  <img src="public\taskpro-image-3.png" style="width: 48%;" alt="Image showcase"/> 
-  <img src="public\taskpro-image-4.png" style="width: 48%;" alt="Image showcase"/> 
-  <img src="public/taskpro-image-1.png" style="width: 48%;" alt="Image showcase"/> 
-  <img src="public/taskpro-image-2.png" style="width: 48%;" alt="Image showcase"/> 
-  <img src="public/taskpro-image-5.png" style="width: 48%;" alt="Image showcase"/> 
-  <img src="public/taskpro-image-6.png" style="width: 48%;" alt="Image showcase"/> 
-  <img src="public/taskpro-image-7.png" style="width: 96%" alt="Image showcase"/> 
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(48%, 1fr)); gap: 10px;">
+  <img src="public/taskpro-image-3.png" style="width: 100%;" alt="Image showcase"/>
+  <img src="public/taskpro-image-4.png" style="width: 100%;" alt="Image showcase"/>
+  <img src="public/taskpro-image-1.png" style="width: 100%;" alt="Image showcase"/>
+  <img src="public/taskpro-image-2.png" style="width: 100%;" alt="Image showcase"/>
+  <img src="public/taskpro-image-5.png" style="width: 100%;" alt="Image showcase"/>
+  <img src="public/taskpro-image-6.png" style="width: 100%;" alt="Image showcase"/>
+  <img src="public/taskpro-image-7.png" style="grid-column: 1 / -1; width: 100%;" alt="Image showcase"/>
 </div>
 
 ## 🤝 Contributing
