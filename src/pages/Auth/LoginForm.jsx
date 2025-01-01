@@ -67,7 +67,7 @@ function LoginForm() {
             {verifiedEmail &&
               <Alert severity="success" sx={{ '.MuiAlert-message': { overflow: 'hidden' }, marginTop: '0.8rem' }}>
                 Your email&nbsp;
-                <Typography variant="span" sx={{ fontWeight: 'bold', '&:hover': { color: '#fdba26' } }}>toanla.dev@gmail.com</Typography>
+                <Typography variant="span" sx={{ fontWeight: 'bold' }}>{registeredEmail}</Typography>
                 &nbsp;has been verified.<br />Now you can login to enjoy our services! Have a good day!
               </Alert>
             }
@@ -75,7 +75,7 @@ function LoginForm() {
             {registeredEmail &&
               <Alert severity="info" sx={{ '.MuiAlert-message': { overflow: 'hidden' }, marginTop: '0.8rem' }}>
                 An email has been sent to&nbsp;
-                <Typography variant="span" sx={{ fontWeight: 'bold', '&:hover': { color: '#fdba26' } }}>toanla.dev@gmail.com</Typography>
+                <Typography variant="span" sx={{ fontWeight: 'bold' }}>{registeredEmail}</Typography>
                 <br />Please check and verify your account before logging in!
               </Alert>
             }

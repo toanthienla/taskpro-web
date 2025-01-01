@@ -1,44 +1,84 @@
 <div align="center">
-  <img src="public/taskpro-video-1.gif" alt="TaskPro Demo" width="100%"/> 
+  <img src="public/taskpro-video-2.gif" alt="TaskPro Demo" width="100%"/> 
 </div>
 
-## Introduction
+# TaskPro Web
 
-**TaskPro** is a Kanban-style task management application inspired by Trello. This repository houses the frontend code.
+A React-based Kanban-style task management app for organizing tasks and collaborating efficiently, drawing inspiration from Trello. This repository contains the frontend TaskPro implementation.
 
-## Key Features
+## Features
 
--   **Visual Task Organization:** Manage tasks effortlessly with customizable boards, columns, and cards.
--   **Intuitive Drag-and-Drop:** Rearrange tasks seamlessly with a smooth drag-and-drop interface.
+-   **📋 Kanban Boards**
+
+    -   Drag-and-drop task management
+    -   Customizable columns and cards
+    -   Real-time updates
+
+-   **🎨 Modern UI/UX**
+
+    -   Material-UI components
+    -   Responsive design
+    -   Dark/Light theme support
+
+-   **🔒 User Authentication**
+    -   Secure login/signup
+    -   Password protection
+    -   Email verification
+    -   User profile management
 
 ## Tech Stack
 
--   **React (v18.x)**: Provides a dynamic and responsive user experience.
--   **Material-UI (MUI v5.x)**: Ensures a polished and professional user interface.
--   **DNDKit**: Powers the intuitive drag-and-drop functionality.
--   **Axios**: Facilitates smooth communication with the backend API.
+### Core Technologies
 
-## Development
+-   **React (v18+)**: Component-based UI library.
+-   **Material-UI (MUI v5)**: Pre-styled UI components.
+-   **DNDKit**: Drag-and-drop framework.
+-   **Axios**: HTTP client for API requests.
+-   **Redux**: State management tool.
+-   **SocketIO**: Real-time communication.
 
--   **Vite**: Enables a fast and efficient development environment.
--   **ESLint**: Maintains clean and consistent code.
+### Supplementary Libraries
 
-### Project Structure
+-   **React Toastify**: Toast notifications.
+-   **React Router DOM**: Routing for React apps.
+-   **React Hook Form**: Easy form management.
+-   **React Markdown Editor**: Markdown input and preview.
 
--   **`~/apis`**: Handles mock data for testing and backend API interaction.
--   **`~/assets`**: Stores static assets like images and SVGs.
--   **`~/components`**: Houses reusable UI components.
--   **`~/pages`**: Contains major application components (e.g., Board, Authentication).
--   **`~/redux`**: Manages application state with Redux.
--   **`~/utils`**: Provides utility functions and shared variables.
+### Development Tools
+
+-   **Vite**: Fast build tool.
+-   **ESLint**: Code quality checker.
+
+## Project Structure
+
+-   **`~/apis`**: API handlers.
+-   **`~/assets`**: Static assets (e.g., images, SVGs).
+-   **`~/components`**: Reusable UI components.
+-   **`~/customHooks`**: Custom React hooks.
+-   **`~/customLibraries`**: Custom config libraries.
+-   **`~/pages`**: Main app screens (e.g., Board, Auth,...).
+-   **`~/redux`**: Redux slices and store.
+-   **`~/utils`**: Utility functions and constants.
 
 ## Getting Started
 
-1.  **Node.js:** Ensure you have Node.js version 18.x or higher installed.
+1.  Ensure you have Node.js version 18.x or higher installed.
 2.  Clone the repository: `git clone https://github.com/toanthienla/taskpro-web.git`
 3.  Install dependencies: `npm install`
 4.  Start the development server: `npm run dev`
 
-## Contributing
+## 🎨 Design Showcase
+
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+  <img src="public\taskpro-image-3.png" style="width: 48%;" alt="Image showcase"/> 
+  <img src="public\taskpro-image-4.png" style="width: 48%;" alt="Image showcase"/> 
+  <img src="public/taskpro-image-1.png" style="width: 48%;" alt="Image showcase"/> 
+  <img src="public/taskpro-image-2.png" style="width: 48%;" alt="Image showcase"/> 
+  <img src="public/taskpro-image-5.png" style="width: 48%;" alt="Image showcase"/> 
+  <img src="public/taskpro-image-6.png" style="width: 48%;" alt="Image showcase"/> 
+  <img src="public/taskpro-image-7.png" style="width: 97.5%;" alt="Image showcase"/> 
+</div>
+
+## 🤝 Contributing
 
 Contributions are welcome! Feel free to submit issues and pull requests.
