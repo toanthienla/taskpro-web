@@ -76,7 +76,7 @@ A React-based Kanban-style task management app for organizing tasks and collabor
   <img src="public/taskpro-image-2.png" style="width: 48%;" alt="Image showcase"/> 
   <img src="public/taskpro-image-5.png" style="width: 48%;" alt="Image showcase"/> 
   <img src="public/taskpro-image-6.png" style="width: 48%;" alt="Image showcase"/> 
-  <img src="public/taskpro-image-7.png" style="width: calc(96% + 10px);" alt="Image showcase"/> 
+  <img src="public/taskpro-image-7.png" style="width: 96%" alt="Image showcase"/> 
 </div>
 
 ## 🤝 Contributing
