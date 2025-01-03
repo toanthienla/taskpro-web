@@ -11,7 +11,8 @@
         "dev": "vite --host",
         "build": "vite build",
         "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "start": "vite"
     },
     "dependencies": {
         "@dnd-kit/core": "^6.1.0",
