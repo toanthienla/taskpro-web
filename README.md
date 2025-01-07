@@ -67,7 +67,7 @@ A React-based Kanban-style task management app for organizing tasks and collabor
 2.  Clone the repository: `git clone https://github.com/toanthienla/taskpro-web.git`
 3.  Install dependencies: `npm install`
 4.  Start the development server: `npm run dev`
-5.  Backend GitHub Repository: `(taskpro-api)[https://github.com/toanthienla/taskpro-api]`
+5.  Backend GitHub Repository: (taskpro-api)[https://github.com/toanthienla/taskpro-api]
 
 ## 🎨 Design Showcase
 
