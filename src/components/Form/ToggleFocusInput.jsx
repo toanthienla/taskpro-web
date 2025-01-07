@@ -21,7 +21,6 @@ function ToggleFocusInput({ value, onChangedValue, inputFontSize = '16px' }) {
   return (
     <TextField
       id="toggle-focus-input-controlled"
-      fullWidth
       variant='outlined'
       size="small"
       value={inputValue}
