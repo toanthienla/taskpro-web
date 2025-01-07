@@ -4,10 +4,10 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddCardIcon from '@mui/icons-material/AddCard';
-import ArchiveIcon from '@mui/icons-material/Archive';
+// import ArchiveIcon from '@mui/icons-material/Archive';
 import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
@@ -190,13 +190,13 @@ function Column({ column }) {
               </ListItemIcon>
               <ListItemText>Add new card</ListItemText>
             </MenuItem>
-            <Divider />
-            <MenuItem>
+            {/* <Divider /> */}
+            {/* <MenuItem>
               <ListItemIcon>
                 <ArchiveIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText>Archive column</ListItemText>
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem onClick={handleRemoveColumn}>
               <ListItemIcon>
                 <DeleteOutlineIcon fontSize="small" />

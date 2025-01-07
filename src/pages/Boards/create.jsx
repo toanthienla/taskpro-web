@@ -80,7 +80,7 @@ function SidebarCreateBoardModal() {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 600,
+          width: { xs: '90%', sm: '600px' },
           bgcolor: 'white',
           boxShadow: 24,
           borderRadius: '8px',

@@ -13,5 +13,7 @@ export default defineConfig({
     alias: [
       { find: '~', replacement: '/src' }
     ]
-  }
+  },
+  // Ignore public folder
+  publicDir: false
 });

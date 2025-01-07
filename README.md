@@ -46,8 +46,9 @@ A React-based Kanban-style task management app for organizing tasks and collabor
 
 ### Development Tools
 
--   **Vite**: Fast build tool.
+-   **Vite**: Build tool.
 -   **ESLint**: Code quality checker.
+-   **Amazon EC2**: React deployment.
 
 ## Project Structure
 
